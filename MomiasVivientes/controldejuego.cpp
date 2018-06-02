@@ -1,5 +1,4 @@
 #include "controldejuego.h"
-
 controldejuego::controldejuego(int pnt,int vi)
 {
   vidas=vi;
@@ -8,6 +7,5 @@ controldejuego::controldejuego(int pnt,int vi)
 }
 
 void controldejuego::sumar()
-{
-
+{    
 }

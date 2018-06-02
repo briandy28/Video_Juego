@@ -31,7 +31,8 @@ SOURCES += \
     juego.cpp \
     momia.cpp \
     gema.cpp \
-    controldejuego.cpp
+    controldejuego.cpp \
+    obstcaculosenmov.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +41,8 @@ HEADERS += \
     juego.h \
     momia.h \
     gema.h \
-    controldejuego.h
+    controldejuego.h \
+    obstcaculosenmov.h
 
 FORMS += \
         mainwindow.ui \

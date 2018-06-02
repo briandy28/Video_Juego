@@ -1,5 +1,5 @@
-#ifndef GEMA_H
-#define GEMA_H
+#ifndef OBSTCACULOSENMOV_H
+#define OBSTCACULOSENMOV_H
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
@@ -10,23 +10,23 @@
 #include "momia.h"
 #include "juego.h"
 
-class gema : public QObject, public QGraphicsPixmapItem
+class obstcaculosenmov: public QObject, public QGraphicsPixmapItem
 {
-    Q_OBJECT
-
+     Q_OBJECT
+private:
+    float PX, PY;
+    QTimer* timer;
+    int cont;
 public:
-    explicit gema(QGraphicsItem *parent = nullptr);
+    explicit obstcaculosenmov(QGraphicsItem *parent = nullptr);
+
     float getPX() const;
     void setPX(float value);
     float getPY() const;
     void setPY(float value);
-
-private:
-    QTimer *timergema;
-    float PX,PY;
-
 public slots:
     void mover();
 };
 
-#endif // GEMA_H
+
+#endif // OBSTCACULOSENMOV_H
