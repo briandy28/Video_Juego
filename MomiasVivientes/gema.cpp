@@ -2,13 +2,33 @@
 extern juego *nivel1;
 gema::gema(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
-    PX= 1000;
+    PX= nivel1->jugador->getPX()+800;
     PY= 390;
     setPos(PX,PY);
     setPixmap(QPixmap(":/gema1.png"));
     timergema = new QTimer;
     connect(timergema, SIGNAL(timeout()), this, SLOT(mover()));
     timergema->start(40);
+}
+
+float gema::getPX() const
+{
+    return PX;
+}
+
+void gema::setPX(float value)
+{
+    PX = value;
+}
+
+float gema::getPY() const
+{
+    return PY;
+}
+
+void gema::setPY(float value)
+{
+    PY = value;
 }
 
 void gema::mover()

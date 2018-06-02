@@ -1,7 +1,6 @@
 #ifndef CONTROLDEJUEGO_H
 #define CONTROLDEJUEGO_H
 
-
 class controldejuego
 {
 public:

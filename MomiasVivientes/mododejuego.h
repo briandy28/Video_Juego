@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "juego.h"
 
+
 namespace Ui {
 class modoDeJuego;
 }

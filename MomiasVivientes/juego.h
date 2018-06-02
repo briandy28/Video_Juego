@@ -8,6 +8,7 @@
 #include "gema.h"
 #include "momia.h"
 #include "controldejuego.h"
+#include "obstcaculosenmov.h"
 #include <QString>
 
 namespace Ui {
@@ -21,24 +22,26 @@ class juego : public QMainWindow
 public:
     explicit juego(QWidget *parent = 0);
     ~juego();
+    Ui::juego *ui;
     QTimer* timer1;
     QTimer* timer2;
+    QTimer* timer3;
+    controldejuego *control;
     void sumar_puntaje();
+    void restar_vidas();
     bool sumar;
+    momia* jugador;
 
 private:
-    Ui::juego *ui;
+
     QGraphicsScene *scene;
-    momia* jugador;
     bool mover, saltar;
     float dt;
-    int vidas;
-    controldejuego *control;
-
-
+    int cont;
 public slots:
     void generar();
     void actualizar();
+    void generar_obst();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 };
