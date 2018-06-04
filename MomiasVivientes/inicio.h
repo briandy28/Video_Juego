@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include "mododejuego.h"
 #include<qDebug>
+#include<QMediaPlayer>
 
 namespace Ui {
 class inicio;
@@ -18,6 +19,7 @@ class inicio : public QWidget
 public:
     explicit inicio(QWidget *parent = 0);
     ~inicio();
+    QMediaPlayer *sonido;
 
 private slots:
     void on_pushButton_clicked();

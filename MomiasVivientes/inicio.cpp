@@ -6,6 +6,12 @@ inicio::inicio(QWidget *parent) :
     ui(new Ui::inicio)
 {
     ui->setupUi(this);
+    this->showMaximized();
+    sonido=new QMediaPlayer();
+    sonido->setMedia(QUrl("qrc:/Egyptian music.mp3"));
+    sonido->setVolume(50);
+    sonido->play();
+
 }
 
 inicio::~inicio()

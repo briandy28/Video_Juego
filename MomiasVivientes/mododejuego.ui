@@ -37,25 +37,12 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>10</y>
-     <width>621</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Times New Roman,serif'; font-size:48pt; font-weight:600;&quot;&gt;Elije el modo de juego.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>290</y>
-     <width>311</width>
+     <x>90</x>
+     <y>240</y>
+     <width>251</width>
      <height>81</height>
     </rect>
    </property>
@@ -72,9 +59,9 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>180</y>
-     <width>311</width>
+     <x>90</x>
+     <y>140</y>
+     <width>251</width>
      <height>81</height>
     </rect>
    </property>
@@ -86,6 +73,41 @@
    </property>
    <property name="text">
     <string>Un solo jugador</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>140</y>
+     <width>231</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="imagenes.qrc">:/Donald_momia2.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>0</y>
+     <width>661</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>AR CARTER</family>
+     <pointsize>72</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Elije el modo de juego.</string>
    </property>
   </widget>
  </widget>

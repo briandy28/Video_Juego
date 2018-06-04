@@ -46,6 +46,11 @@ void obstcaculosenmov::mover()
                nivel1->timer3->stop();
            }
         }
+        if (typeid(*(colliding_items[i])) == typeid(objcaida))
+        {
+            scene()->removeItem(this);
+            delete this;
+        }
     }
     if(PX==0)       //LLEgo al final de la pantalla
     {

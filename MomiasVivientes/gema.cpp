@@ -2,7 +2,7 @@
 extern juego *nivel1;
 gema::gema(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
-    PX= nivel1->jugador->getPX()+800;
+    PX= nivel1->jugador->getPX()+1000;
     PY= 390;
     setPos(PX,PY);
     setPixmap(QPixmap(":/gema1.png"));
@@ -43,8 +43,8 @@ void gema::mover()
             nivel1->sumar_puntaje();
         }
     }
-    PX=PX-8;
-    setPos(PX,PY);
+//    PX=PX-8;
+//    setPos(PX,PY);
 
     if(PX==0)       //LLEgo al final de la pantalla
     {
