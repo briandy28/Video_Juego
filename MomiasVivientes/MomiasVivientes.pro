@@ -4,7 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui\
+         multimedia
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,8 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
+        main.cpp\
+    mainwindow.cpp \
     inicio.cpp \
     mododejuego.cpp \
     juego.cpp \
@@ -33,24 +35,30 @@ SOURCES += \
     gema.cpp \
     controldejuego.cpp \
     obstcaculosenmov.cpp \
-    plataforma.cpp
+    objcaida.cpp\
+    base.cpp \
+    niveles.cpp
+
 
 HEADERS += \
         mainwindow.h \
-    inicio.h \
-    mododejuego.h \
-    juego.h \
-    momia.h \
-    gema.h \
-    controldejuego.h \
-    obstcaculosenmov.h \
-    plataforma.h
+        inicio.h \
+        mododejuego.h \
+        juego.h \
+        momia.h \
+        gema.h \
+        controldejuego.h \
+        obstcaculosenmov.h \
+        objcaida.h \
+        base.h \
+    niveles.h
 
 FORMS += \
         mainwindow.ui \
-    inicio.ui \
-    mododejuego.ui \
-    juego.ui
+        inicio.ui \
+        mododejuego.ui \
+        juego.ui \
+    niveles.ui
 
 RESOURCES += \
     imagenes.qrc

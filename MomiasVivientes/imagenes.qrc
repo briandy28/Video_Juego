@@ -3,8 +3,6 @@
         <file>fondo.jpg</file>
         <file>fondo2.jpg</file>
         <file>gema1.png</file>
-        <file>N1.jpg</file>
-        <file>momia.png</file>
         <file>vidas.png</file>
         <file>Donald1.png</file>
         <file>Donald2.png</file>
@@ -13,5 +11,27 @@
         <file>escarabajo1.png</file>
         <file>escarabajo2.png</file>
         <file>escarabajo3.png</file>
+        <file>bola.png</file>
+        <file>lanzar1.png</file>
+        <file>lanzar2.png</file>
+        <file>lanzar3.png</file>
+        <file>lanzar4.png</file>
+        <file>lanzar5.png</file>
+        <file>lanzar6.png</file>
+        <file>barraPequeña.png</file>
+        <file>explosion1.png</file>
+        <file>explosion2.png</file>
+        <file>explosion3.png</file>
+        <file>explosion4.png</file>
+        <file>explosion5.png</file>
+        <file>salto.mp3</file>
+        <file>explosion.mp3</file>
+        <file>lanzar.mp3</file>
+        <file>Egyptian music.mp3</file>
+        <file>Donald_momia.png</file>
+        <file>Donald_momia2.png</file>
+        <file>suelo.jpg</file>
+        <file>N1.jpg</file>
+        <file>lluvia.gif</file>
     </qresource>
 </RCC>

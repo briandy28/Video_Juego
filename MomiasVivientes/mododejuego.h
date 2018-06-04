@@ -2,7 +2,8 @@
 #define MODODEJUEGO_H
 
 #include <QWidget>
-#include "juego.h"
+
+#include "niveles.h"
 
 
 namespace Ui {
@@ -16,8 +17,7 @@ class modoDeJuego : public QWidget
 public:
     explicit modoDeJuego(QWidget *parent = 0);
     ~modoDeJuego();
-
-private slots:
+ private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_clicked();

@@ -15,6 +15,8 @@ public:
 
     void mover();
     void saltar(float dt);
+    void saltar_parabolico(float dt);
+    void lanzar();
     void setPX(float value);
     void setPY(float value);
     float getPY() const;
@@ -22,7 +24,7 @@ public:
 private:
     float PX;
     float PY;
-    int cont;
+    int cont, cont2;
 
 signals:
 
