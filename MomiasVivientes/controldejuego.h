@@ -4,8 +4,8 @@
 class controldejuego
 {
 public:
-    controldejuego(int pnt,int vi);
-    int puntaje, vidas;
+    controldejuego(int pnt, int vi, int bombas);
+    int puntaje, vidas, num_Bombas;
     void sumar();
 };
 

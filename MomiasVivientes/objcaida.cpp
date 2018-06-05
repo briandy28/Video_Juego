@@ -1,8 +1,8 @@
 #include "objcaida.h"
-extern juego *nivel1;
+extern juego *Juego;
 objcaida::objcaida(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
-    PX= nivel1->jugador->getPX()+100;
+    PX= Juego->jugador->getPX()+100;
     PY= 370;
     dt=0;
     setPos(PX,PY);
@@ -59,7 +59,7 @@ void objcaida::mover()
         if (typeid(*(colliding_items[i])) == typeid(base))
         {
             mover2=false;
-            qDebug()<<mover2;
+           // qDebug()<<mover2;
             cont++;
             cont2++;
             if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}

@@ -13,9 +13,14 @@ class momia : public QObject, public QGraphicsPixmapItem
 public:
     explicit momia(QObject *parent = nullptr);
 
-    void mover();
+    void mover(int tipo_mov);
     void saltar(float dt);
+    void saltar_parabolico(float dt);
     void lanzar();
+    void mover_multij(int tipo_mov);
+    void saltar_multij(float dt);
+    void saltar_parabolico_multij(float dt);
+    void lanzar_multij();
     void setPX(float value);
     void setPY(float value);
     float getPY() const;

@@ -15,7 +15,7 @@ class base : public QObject, public QGraphicsPixmapItem
 
 public:
     explicit base(QGraphicsItem *parent = nullptr);
-    void remover_plataforma();
+    ~base();
     float getPx_base() const;
     float getPy_base() const;
     void setPx_base(float value);
@@ -24,6 +24,10 @@ public:
 private:
     float Px_base;
     float Py_base;
+    QTimer *eliminar;
+public slots:
+    void remover_base();
+//    void remover_plataforma();
 
 };
 

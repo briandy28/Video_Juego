@@ -1,8 +1,8 @@
 #include "gema.h"
-extern juego *nivel1;
+extern juego *Juego;
 gema::gema(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
-    PX= nivel1->jugador->getPX()+1000;
+    PX= Juego->jugador->getPX()+1000;
     PY= 390;
     setPos(PX,PY);
     setPixmap(QPixmap(":/gema1.png"));
@@ -40,7 +40,7 @@ void gema::mover()
         {
             scene()->removeItem(this);
             delete this;
-            nivel1->sumar_puntaje();
+            Juego->sumar_puntaje();
         }
     }
 //    PX=PX-8;

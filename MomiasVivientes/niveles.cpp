@@ -1,11 +1,16 @@
 #include "niveles.h"
 #include "ui_niveles.h"
-extern juego *nivel1;
+extern juego *Juego;
+extern niveles *ventana;
 niveles::niveles(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::niveles)
 {
     ui->setupUi(this);
+    verificar= new QTimer();
+    connect(verificar,SIGNAL(timeout()),this,SLOT(verificar_nivel()));
+    verificar->start();
+
 }
 
 niveles::~niveles()
@@ -15,24 +20,39 @@ niveles::~niveles()
 
 void niveles::on_nivel1_clicked()
 {
-    nivel1->nivel1();
-    nivel1->show();
+    Juego->nivel1();
+    Juego->show();
     close();
 
 }
 
 void niveles::on_nivel2_clicked()
 {
-    if(nivel1->control->puntaje==50)
+    if(Juego->control->puntaje==10)
     {
-
+       Juego->nivel2();
+       Juego->show();
+       close();
     }
 }
 
 void niveles::on_nivel3_clicked()
 {
-    if(nivel1->control->puntaje==100)
+    if(Juego->control->puntaje==100)
     {
 
+    }
+}
+
+void niveles::verificar_nivel()
+{
+
+    if(int(Juego->control->puntaje)==10)
+    {
+        Juego->avanzar();
+    }
+    if(int(Juego->control->puntaje)==60)
+    {
+         Juego->avanzar();
     }
 }
