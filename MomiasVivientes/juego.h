@@ -42,20 +42,23 @@ public:
     void explosion(int x,int y);
     void nivel1();
     void nivel2();
+    void multijugador();
     void avanzar();
     void colision();
-    bool sumar;
+    bool sumar,opc_multijugador;
     momia* jugador;
+    momia* jugador2;
     QList<base*> plataformas;
     base* suelo;
     QFile archivo;
+
     //fstream archivo;
 
 private:
+    bool mover, saltar,lanzar,saltoparabolico,col, mover_j2, saltar_j2, lanzar_j2, saltoparabolico_j2;
     QGraphicsScene *scene;
-    bool mover, saltar,lanzar,saltoparabolico,col;
     float dt,dt2;
-    int cont,contventana;
+    int cont,contventana, tipo_mov1 ,tipo_mov2;
     QMediaPlayer* salto;
     QMediaPlayer* lanzar2;
     QMovie* lluvia;

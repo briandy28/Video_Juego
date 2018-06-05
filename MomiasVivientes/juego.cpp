@@ -17,8 +17,6 @@ juego::juego(QWidget *parent) :
     scene = new QGraphicsScene(10,10,1000,500);
     ui->graphicsView->setScene(scene);
     ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/N1")));
-    jugador=new momia();
-    scene->addItem(jugador);
     timer1=new QTimer();
     connect(timer1,SIGNAL(timeout()),this,SLOT(actualizar()));
     timer2 = new QTimer();
@@ -52,8 +50,9 @@ juego::juego(QWidget *parent) :
     ui->gotas->setMovie(lluvia);
     contventana=0;
     dt2=0;
-//    QFile archivo("videojuego");
-
+    opc_multijugador = false;
+    tipo_mov1 = 0; // 1 mover derecha, 0 no mover, 2 mover izq
+    tipo_mov2 = 0;
 }
 
 juego::~juego(){delete ui;}
@@ -79,6 +78,8 @@ void juego::restar_vidas()
 
 void juego::nivel1()
 {
+    jugador=new momia();
+    scene->addItem(jugador);
     timer1->start(40);
     timer2->start(2500);
     timer3->start(30000);
@@ -110,23 +111,48 @@ void juego::nivel2()
 
 }
 
+void juego::multijugador()
+{
+    opc_multijugador = true;
+    jugador =new momia();
+    scene->addItem(jugador);
+    jugador2 = new momia();
+    jugador2->setPX(500);
+    jugador2->setPY(370);
+    jugador2->setPos(jugador2->getPX(),jugador2->getPY());
+    scene->addItem(jugador2);
+    mover_j2 = false;
+    saltar_j2= false;
+    lanzar_j2= false;
+    saltoparabolico_j2= false;
+    mover=false;
+    saltar=false;
+    lanzar=false;
+    QSize size(1000, 500);
+    lluvia = new QMovie(":/lluvia.gif");
+    lluvia->setScaledSize(size);
+    ui->gotas->setMovie(lluvia);
+    lluvia->start();
+    timer1->start(40);
+}
+
 void juego::avanzar()
 {
    if((control->puntaje)==(10)){ contventana++;}
    if(contventana==1)
    {
-
+        //Se debe parar los stop y eliminar todos los objetos
        timer1->stop();
        timer2->stop();
        timer3->stop();
        timer_Plataforma->stop();
        scene->removeItem(jugador);
-       scene->removeItem(suelo);
        for(int i=0;i<int(plataformas.size());i++)
        {
-           scene->removeItem(plataformas.at(i));
+          scene->removeItem(plataformas.at(i));
        }
-       scene->clear();
+       plataformas.clear();
+       delete jugador;
        close();
        ventana->show();
    }
@@ -166,6 +192,7 @@ void juego::generar()
 
 void juego::actualizar()
 {
+    //Un Jugador
     if (saltar)
     {
         jugador->saltar(dt);
@@ -187,7 +214,20 @@ void juego::actualizar()
         dt2=0;
         jugador->setPos(jugador->getPX(),jugador->getPY());
     }
-    if(mover){jugador->mover();}
+    if(opc_multijugador){
+        if(mover)
+        {
+            jugador->mover(tipo_mov1);
+        }
+    }
+    else if(mover)
+        {
+            if(tipo_mov1 == 1){
+                jugador->mover(tipo_mov1);
+            }
+        }
+
+
     if(int(plataformas.size())!=0)
     {
         if(plataformas.first()->getPx_base()==-10)
@@ -198,10 +238,41 @@ void juego::actualizar()
         }
     }
     //opcion para el movimiento del fondo y el piso junto con la momia
-     scene->setSceneRect(jugador->getPX(),10,1000,500);
-     suelo->setPx_base(jugador->getPX()-40);
-     suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
-     this->colision();
+    if(!opc_multijugador){
+        scene->setSceneRect(jugador->getPX(),10,1000,500);
+        suelo->setPx_base(jugador->getPX()-40);
+        suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
+        this->colision();
+    }
+
+    //Multijugador
+    if(opc_multijugador){
+        if (saltar_j2)
+        {
+            jugador2->saltar_multij(dt);
+            jugador2->setPos(jugador2->getPX(),jugador2->getPY());
+            dt+=0.1;
+        }
+        if(saltoparabolico_j2)
+        {
+            jugador2->saltar_parabolico_multij(dt2);
+            jugador2->setPos(jugador2->getPX(),jugador2->getPY());
+            dt2+=0.1;
+        }
+        if (jugador2->getPY()>370 && col==true)
+        {
+            saltar_j2 = false;
+            saltoparabolico_j2=false;
+            jugador2->setPY(370);
+            dt=0;
+            dt2=0;
+            jugador2->setPos(jugador2->getPX(),jugador2->getPY());
+        }
+        if(mover_j2)
+        {
+            jugador2->mover_multij(tipo_mov2);
+        }
+    }
 }
 
 void juego::generar_obst()
@@ -220,23 +291,43 @@ void juego::generar_plataforma()
     scene->addItem(plataformas.last());
 }
 
-
+//1 mover derecha, 0 no mover, 2 mover izq
 void juego::keyPressEvent(QKeyEvent *event)
 {
     if( event->key() == Qt::Key_W ){saltar = true;salto->play();}
     if( event->key() == Qt::Key_Q ){saltoparabolico = true;salto->play();}
-    if( event->key() == Qt::Key_D ){ mover = true;}
+    if( event->key() == Qt::Key_D ){ mover = true, tipo_mov1=1;}
+    if( event->key() == Qt::Key_A ){ mover = true, tipo_mov1=2;}
     if(event->key()==Qt::Key_E){
         lanzar2->play();
         objcaida* bola = new objcaida();
         jugador->lanzar();
         scene->addItem(bola);}
+
+    //Jugardor 2
+
+    if( event->key() == Qt::Key_I ){saltar_j2 = true;salto->play();}
+    if( event->key() == Qt::Key_O ){saltoparabolico_j2 = true;salto->play();}
+    if( event->key() == Qt::Key_J ){ mover_j2 = true; tipo_mov2=2;}
+    if( event->key() == Qt::Key_L ){ mover_j2 = true; tipo_mov2=1;}
+    if(event->key()==Qt::Key_U){
+        lanzar2->play();
+        objcaida* bola = new objcaida();
+        bola->setPX(jugador2->getPX()+100);
+        bola->setPos(bola->getPX(),bola->getPY());
+        jugador2->lanzar();
+        scene->addItem(bola);}
+
 }
 
 void juego::keyReleaseEvent(QKeyEvent *event)
 {
-    if( event->key() == Qt::Key_D ){ mover = false; jugador->setPixmap(QPixmap(":/Donald1.png"));}
+    if( event->key() == Qt::Key_D ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
+    if( event->key() == Qt::Key_A ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
     if( event->key() == Qt::Key_E ){ jugador->setPixmap(QPixmap(":/Donald1.png"));}
+    if( event->key() == Qt::Key_J ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald1.png"));}
+    if( event->key() == Qt::Key_L ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald1.png"));}
+    if( event->key() == Qt::Key_U ){ jugador2->setPixmap(QPixmap(":/Donald1.png"));}
 }
 
 void juego::on_actionGuardar_Juego_triggered()

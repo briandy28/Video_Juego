@@ -8,9 +8,23 @@ base::base(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
     setPixmap(QPixmap(":/barraPequeña.png"));
     setPos(Px_base,Py_base);
     eliminar=new QTimer();
-//    connect(eliminar, SIGNAL(timeout()), this, SLOT(remover_plataforma()));
-//    eliminar->start(40);
+    //connect(eliminar, SIGNAL(timeout()), this, SLOT(remover_base()));
+    //eliminar->start(40);
+}
 
+base::~base()
+{
+    delete this;
+}
+
+void base::remover_base()
+{
+    if(Juego->control->puntaje == 10)
+    {
+        scene()->removeItem(this);
+        delete this;
+        qDebug()<<"eliminado";
+    }
 }
 
 

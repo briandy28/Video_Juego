@@ -1,20 +1,19 @@
 #include "momia.h"
+#include "juego.h"
+extern juego* Juego;
 
 float momia::getPX() const
 {
     return PX;
 }
-
 void momia::setPX(float value)
 {
     PX = value;
 }
-
 float momia::getPY() const
 {
     return PY;
 }
-
 void momia::setPY(float value)
 {
     PY = value;
@@ -30,14 +29,26 @@ momia::momia(QObject *parent) : QObject(parent)
     cont2=0;
 }
 
-void momia::mover()
+void momia::mover(int tipo_mov)
 {
-    PX=PX+8;
-    setPos(PX,PY);
-    cont++;
-    if(cont<3){this->setPixmap(QPixmap(":/Donald3.png"));}
-    if(cont>=3 && cont<9){this->setPixmap(QPixmap(":/Donald2.png"));}
-    if(cont>=9 && cont<12){this->setPixmap(QPixmap(":/Donald4.png")); cont=0;}
+    if(tipo_mov == 1){
+        PX=PX+8;
+        setPos(PX,PY);
+        cont++;
+        if(cont<3){this->setPixmap(QPixmap(":/Donald3.png"));}
+        if(cont>=3 && cont<9){this->setPixmap(QPixmap(":/Donald2.png"));}
+        if(cont>=9 && cont<12){this->setPixmap(QPixmap(":/Donald4.png")); cont=0;}
+
+    }
+    if(tipo_mov == 2){
+        PX=PX-8;
+        setPos(PX,PY);
+        cont++;
+        if(cont<3){this->setPixmap(QPixmap(":/Donald3.png"));}
+        if(cont>=3 && cont<9){this->setPixmap(QPixmap(":/Donald2.png"));}
+        if(cont>=9 && cont<12){this->setPixmap(QPixmap(":/Donald4.png")); cont=0;}
+
+    }
 }
 
 void momia::saltar(float dt)
@@ -65,3 +76,56 @@ void momia::lanzar()
     if(cont2>=2 && cont2<3){this->setPixmap(QPixmap(":/lanzar5.png"));}
     if(cont2>=3 && cont2<4){this->setPixmap(QPixmap(":/lanzar6.png"));cont2=0;}
 }
+
+
+//Metodos para Multijugador- JUGADOR 2
+
+void momia::mover_multij(int tipo_mov)
+{
+    if(tipo_mov == 1){
+        PX=PX+8;
+        setPos(PX,PY);
+        cont++;
+        if(cont<3){this->setPixmap(QPixmap(":/Donald3.png"));}
+        if(cont>=3 && cont<9){this->setPixmap(QPixmap(":/Donald2.png"));}
+        if(cont>=9 && cont<12){this->setPixmap(QPixmap(":/Donald4.png")); cont=0;}
+
+    }
+    if(tipo_mov == 2){
+        PX=PX-8;
+        setPos(PX,PY);
+        cont++;
+        if(cont<3){this->setPixmap(QPixmap(":/Donald3.png"));}
+        if(cont>=3 && cont<9){this->setPixmap(QPixmap(":/Donald2.png"));}
+        if(cont>=9 && cont<12){this->setPixmap(QPixmap(":/Donald4.png")); cont=0;}
+
+    }
+}
+
+void momia::saltar_multij(float dt)
+{
+    PY = PY -25*dt + 9.8*dt*dt ;
+    this->setPos(PY,PX);
+    this->setPixmap(QPixmap(":/Donald1.png"));
+}
+
+void momia::saltar_parabolico_multij(float dt)
+{
+    PY = PY -25*dt + 9.8*dt*dt ;
+    PX=PX-8;
+    this->setPos(PY,PX);
+    this->setPixmap(QPixmap(":/Donald1.png"));
+}
+
+void momia::lanzar_multij()
+{
+    cont2++;
+//   if(cont2<1){this->setPixmap(QPixmap(":/lanzar1.png"));}
+    if(cont2<1){this->setPixmap(QPixmap(":/lanzar2.png"));}
+//    if(cont2>=2 && cont2<3){this->setPixmap(QPixmap(":/lanzar3.png"));}
+    if(cont2>=1 && cont<2){this->setPixmap(QPixmap(":/lanzar4.png"));}
+    if(cont2>=2 && cont2<3){this->setPixmap(QPixmap(":/lanzar5.png"));}
+    if(cont2>=3 && cont2<4){this->setPixmap(QPixmap(":/lanzar6.png"));cont2=0;}
+}
+
+
