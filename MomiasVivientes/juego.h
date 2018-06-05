@@ -9,6 +9,9 @@
 #include <QMediaPlayer>
 #include <Qmovie>
 #include <Qsize>
+#include <QFile>
+#include <QTextStream>
+
 #include "gema.h"
 #include "momia.h"
 #include "controldejuego.h"
@@ -45,6 +48,8 @@ public:
     momia* jugador;
     QList<base*> plataformas;
     base* suelo;
+    QFile archivo;
+    //fstream archivo;
 
 private:
     QGraphicsScene *scene;
@@ -61,6 +66,9 @@ public slots:
     void generar_plataforma();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+private slots:
+    void on_actionGuardar_Juego_triggered();
+    void on_actionCargar_Juego_triggered();
 };
 
 #endif // JUEGO_H

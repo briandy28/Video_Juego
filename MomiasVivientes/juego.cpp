@@ -2,6 +2,10 @@
 #include "ui_juego.h"
 #include "niveles.h"
 #include <string>
+#include <iostream>
+#include <fstream>
+using namespace std;
+
 extern juego *Juego;
 extern niveles *ventana;
 using namespace std;
@@ -48,6 +52,8 @@ juego::juego(QWidget *parent) :
     ui->gotas->setMovie(lluvia);
     contventana=0;
     dt2=0;
+//    QFile archivo("videojuego");
+
 }
 
 juego::~juego(){delete ui;}
@@ -231,4 +237,28 @@ void juego::keyReleaseEvent(QKeyEvent *event)
 {
     if( event->key() == Qt::Key_D ){ mover = false; jugador->setPixmap(QPixmap(":/Donald1.png"));}
     if( event->key() == Qt::Key_E ){ jugador->setPixmap(QPixmap(":/Donald1.png"));}
+}
+
+void juego::on_actionGuardar_Juego_triggered()
+{
+    QFile file("videojuego.txt");
+    file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    QTextStream texto(&file);
+    texto<<control->puntaje<<QString("\t puntaje \n");
+    texto<<control->vidas<<QString("\t numero de vidas");
+    file.close();
+}
+
+void juego::on_actionCargar_Juego_triggered()
+{
+    QFile filea("videojuego.txt");
+    filea.open(QIODevice::ReadOnly);
+    QTextStream texto(&filea);
+//    filea >> control->puntaje;
+    while (!texto.atEnd()) {
+        QString line = texto.readLine();
+//        control->puntaje(line);
+        texto>>control->puntaje;
+    }
+
 }
