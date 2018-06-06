@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-
 extern juego *Juego;
 extern niveles *ventana;
 using namespace std;
@@ -15,8 +14,8 @@ juego::juego(QWidget *parent) :
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(10,10,1000,500);
+    scene->setBackgroundBrush(QBrush(QImage(":/N1")));
     ui->graphicsView->setScene(scene);
-    ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/N1")));
     timer1=new QTimer();
     connect(timer1,SIGNAL(timeout()),this,SLOT(actualizar()));
     timer2 = new QTimer();
@@ -92,6 +91,7 @@ void juego::nivel1()
 
 void juego::nivel2()
 {
+    scene->setBackgroundBrush(QBrush(QImage(":/N2")));
     jugador=new momia();
     scene->addItem(jugador);
     suelo = new base();
@@ -186,7 +186,6 @@ void juego::colision()
        }
    }
 }
-
 
 void juego::generar()
 {
@@ -283,6 +282,27 @@ void juego::generar_obst()
 {
    obstcaculosenmov *escarabajo = new obstcaculosenmov();
    scene->addItem(escarabajo);
+   escarabajo->inciar1();
+   if(control->puntaje>=10)
+      {
+      obstcaculosenmov *escarabajo2 = new obstcaculosenmov();
+      escarabajo2->setPY(400);
+      escarabajo->setPX(1300);
+      escarabajo2->setPos(escarabajo2->getPX(),escarabajo->getPY());
+      scene->addItem(escarabajo2);
+      escarabajo2->iniciar2();
+      }
+      if(control->puntaje>=20)
+      {
+      obstcaculosenmov *bola = new obstcaculosenmov();
+      bola->setPixmap(QPixmap(":/bolaenelaire.png"));
+      bola->setPY(10);
+      bola->setPX(500);
+      bola->setPos(bola->getPX(),bola->getPY());
+      scene->addItem(bola);
+      bola->iniciar3();
+      }
+
 }
 
 void juego::generar_plataforma()
