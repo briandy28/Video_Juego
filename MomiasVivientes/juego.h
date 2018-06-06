@@ -45,6 +45,7 @@ public:
     void multijugador();
     void avanzar();
     void colision();
+    void vidas_multijugador();
     bool sumar,opc_multijugador;
     momia* jugador;
     momia* jugador2;

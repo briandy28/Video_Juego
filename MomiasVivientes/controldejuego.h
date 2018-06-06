@@ -5,8 +5,8 @@ class controldejuego
 {
 public:
     controldejuego(int pnt,int vi);
-    int puntaje, vidas;
-    void sumar();
+    int puntaje, vidas,vidasjugador2;
+    void control_multijugador(int vidas1,int vidas2);
 };
 
 #endif // CONTROLDEJUEGO_H

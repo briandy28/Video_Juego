@@ -110,6 +110,19 @@
     <string>Elije el modo de juego.</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_Cargar">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>360</y>
+     <width>251</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Carga Juego</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="imagenes.qrc"/>

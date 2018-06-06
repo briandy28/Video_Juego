@@ -78,6 +78,8 @@ void juego::restar_vidas()
 
 void juego::nivel1()
 {
+    ui->vidasJ1->clear();
+    ui->vidasJ2_4->clear();
     jugador=new momia();
     scene->addItem(jugador);
     timer1->start(40);
@@ -113,10 +115,17 @@ void juego::nivel2()
 
 void juego::multijugador()
 {
+    ui->label->clear();
+    ui->punt->clear();
+    ui->vidasJ2->setPixmap(QPixmap(":/vidas.png"));
+    ui->vidasJ2_2->setPixmap(QPixmap(":/vidas.png"));
+    ui->vidasJ2_3->setPixmap(QPixmap(":/vidas.png"));
+    control->control_multijugador(3,3);
     opc_multijugador = true;
     jugador =new momia();
     scene->addItem(jugador);
     jugador2 = new momia();
+    jugador2->setPixmap(QPixmap(":/Donald2_1.png"));
     jugador2->setPX(500);
     jugador2->setPY(370);
     jugador2->setPos(jugador2->getPX(),jugador2->getPY());
@@ -181,6 +190,18 @@ void juego::colision()
             }
        }
    }
+}
+
+void juego::vidas_multijugador()
+{
+    if(control->vidas==2){ui->vida3->clear();}
+    if(control->vidas==1){ui->vida2->clear();}
+    if(control->vidas==0){ui->vida1->clear();}
+    if(control->vidasjugador2==2){ui->vidasJ2_3->clear();}
+    if(control->vidasjugador2==1){ui->vidasJ2_2->clear();}
+    if(control->vidasjugador2==0){ui->vidasJ2->clear();}
+
+
 }
 
 
@@ -301,6 +322,7 @@ void juego::keyPressEvent(QKeyEvent *event)
     if(event->key()==Qt::Key_E){
         lanzar2->play();
         objcaida* bola = new objcaida();
+        bola->iniciar1();
         jugador->lanzar();
         scene->addItem(bola);}
 
@@ -315,7 +337,8 @@ void juego::keyPressEvent(QKeyEvent *event)
         objcaida* bola = new objcaida();
         bola->setPX(jugador2->getPX()+100);
         bola->setPos(bola->getPX(),bola->getPY());
-        jugador2->lanzar();
+        bola->iniciar2();
+        jugador2->lanzar_multij();
         scene->addItem(bola);}
 
 }
@@ -325,9 +348,9 @@ void juego::keyReleaseEvent(QKeyEvent *event)
     if( event->key() == Qt::Key_D ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
     if( event->key() == Qt::Key_A ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
     if( event->key() == Qt::Key_E ){ jugador->setPixmap(QPixmap(":/Donald1.png"));}
-    if( event->key() == Qt::Key_J ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald1.png"));}
-    if( event->key() == Qt::Key_L ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald1.png"));}
-    if( event->key() == Qt::Key_U ){ jugador2->setPixmap(QPixmap(":/Donald1.png"));}
+    if( event->key() == Qt::Key_J ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald2_1.png"));}
+    if( event->key() == Qt::Key_L ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald2_1.png"));}
+    if( event->key() == Qt::Key_U ){ jugador2->setPixmap(QPixmap(":/Donald2_1.png"));}
 }
 
 void juego::on_actionGuardar_Juego_triggered()
@@ -335,21 +358,13 @@ void juego::on_actionGuardar_Juego_triggered()
     QFile file("videojuego.txt");
     file.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream texto(&file);
-    texto<<control->puntaje<<QString("\t puntaje \n");
-    texto<<control->vidas<<QString("\t numero de vidas");
+    texto<<control->puntaje<<QString("\n");
+    texto<<control->vidas;
     file.close();
 }
 
 void juego::on_actionCargar_Juego_triggered()
 {
-    QFile filea("videojuego.txt");
-    filea.open(QIODevice::ReadOnly);
-    QTextStream texto(&filea);
-//    filea >> control->puntaje;
-    while (!texto.atEnd()) {
-        QString line = texto.readLine();
-//        control->puntaje(line);
-        texto>>control->puntaje;
-    }
+
 
 }

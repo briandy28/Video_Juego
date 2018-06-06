@@ -28,3 +28,36 @@ void modoDeJuego::on_pushButton_clicked()
     Juego->show();
     close();
 }
+
+void modoDeJuego::on_pushButton_Cargar_clicked()
+{
+    QString info;                       //String para leer los datos del archivo
+    QFile file("videojuego.txt");       //Objeto para manejar la lectura del archivo
+    file.open(QIODevice::ReadOnly);     //Abre el archiv en modo lectura
+    info=file.readLine();
+    int n;
+    //while(n>=0){      //Ciclo para guardar cada dato de la linea de texto en su posicion correspondiente en el arreglo vec
+/*
+    n = info.indexOf(" ");
+    Juego->control->puntaje =info.left(n);
+    Juego->control->vidas = info.right(n);
+*/
+
+//}
+//    info>>Juego->control->puntaje;
+
+//    info=file.readLine();
+//    info>>Juego->control->vidas;
+
+    //qDebug<<Juego->control->puntaje<<","<<Juego->control->vidas;
+
+//    QFile filea("videojuego.txt");
+//    filea.open(QIODevice::ReadOnly);
+//    QTextStream texto(&filea);
+////    filea >> control->puntaje;
+//    while (!texto.atEnd()) {
+//        QString line = texto.readLine();
+////        control->puntaje(line);
+//        texto>>control->puntaje;
+//    }
+}

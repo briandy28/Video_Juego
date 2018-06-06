@@ -20,17 +20,20 @@ public:
     void setPX(float value);
     float getPY() const;
     void setPY(float value);
+    void iniciar1();
+    void iniciar2();
 
 private:
-    float PX,PY,dt;
-    QTimer *TimerLlamas;
-    bool mover2;
+    float PX,PY,dt,dt2;
+    QTimer *TimerLlamas,*TimerLlamas2;
+    bool mover2,mover3,restarvidas1,restarvidas2;
     int cont,cont2;
     QMediaPlayer* sonido;
 signals:
 
 public slots:
     void mover();
+    void movver2_();
 };
 
 #endif // OBJCAIDA_H

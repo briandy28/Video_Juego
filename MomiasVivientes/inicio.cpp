@@ -9,7 +9,7 @@ inicio::inicio(QWidget *parent) :
     this->showMaximized();
     sonido=new QMediaPlayer();
     sonido->setMedia(QUrl("qrc:/Egyptian music.mp3"));
-    sonido->setVolume(50);
+    sonido->setVolume(100);
     sonido->play();
 
 }
@@ -18,7 +18,6 @@ inicio::~inicio()
 {
     delete ui;
 }
-
 
 void inicio::on_opc1_1_clicked(){resp1=false;}
 void inicio::on_opc1_2_clicked(){resp1=true;}
