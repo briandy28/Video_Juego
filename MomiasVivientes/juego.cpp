@@ -64,16 +64,14 @@ void juego::sumar_puntaje()
     QString mostrar;
     mostrar= QString::number(numero);
     ui->punt->setText(mostrar);
-    qDebug()<<"puntaje"<<control->puntaje;
-
 }
 
 void juego::restar_vidas()
 {
- control->vidas--;
- if(control->vidas==2){ui->vida3->clear();}
- if(control->vidas==1){ui->vida2->clear();}
- if(control->vidas==0){ui->vida1->clear();}
+    control->vidas--;
+    if(control->vidas==2){ui->vida3->clear();}
+    if(control->vidas==1){ui->vida2->clear();}
+    if(control->vidas==0){ui->vida1->clear();}
 }
 
 void juego::nivel1()
@@ -90,6 +88,8 @@ void juego::nivel1()
 
 void juego::nivel2()
 {
+    ui->vidasJ1->clear();
+    ui->vidasJ2_4->clear();
     jugador=new momia();
     scene->addItem(jugador);
     suelo = new base();
@@ -202,6 +202,20 @@ void juego::vidas_multijugador()
     if(control->vidasjugador2==0){ui->vidasJ2->clear();}
 
 
+}
+
+void juego::cargar_juego()
+{
+    //Mostrar Puntaje en el ui
+    int numero =control->puntaje;
+    QString mostrar;
+    mostrar= QString::number(numero);
+    ui->punt->setText(mostrar);
+    //Mostrar Cantidad de Vidasen el ui
+    if(control->vidas==2){ui->vida3->clear();}
+    if(control->vidas==1){ui->vida2->clear();ui->vida3->clear();}
+    if(control->vidas==0){ui->vida1->clear();ui->vida2->clear();ui->vida3->clear();}
+    /*Mostrar mensaje que no permita jugar*/
 }
 
 
@@ -358,7 +372,7 @@ void juego::on_actionGuardar_Juego_triggered()
     QFile file("videojuego.txt");
     file.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream texto(&file);
-    texto<<control->puntaje<<QString("\n");
+    texto<<control->puntaje<<QString(" ");
     texto<<control->vidas;
     file.close();
 }

@@ -37,11 +37,38 @@ void modoDeJuego::on_pushButton_Cargar_clicked()
     info=file.readLine();
     int n;
     //while(n>=0){      //Ciclo para guardar cada dato de la linea de texto en su posicion correspondiente en el arreglo vec
-/*
+
     n = info.indexOf(" ");
-    Juego->control->puntaje =info.left(n);
-    Juego->control->vidas = info.right(n);
-*/
+    Juego->control->puntaje = info.left(n).toInt();
+    Juego->control->vidas = info.right(n).toInt();
+
+    if(Juego->control->puntaje<10)
+    {
+        Juego->nivel1();
+        Juego->cargar_juego();
+        Juego->show();
+        close();
+    }
+    else
+        if(Juego->control->puntaje>=10 || Juego->control->puntaje<20)
+        {
+            Juego->nivel2();
+            Juego->cargar_juego();
+            Juego->show();
+            close();
+        }
+        else
+            if(Juego->control->puntaje>=20)
+            {
+                //Juego->nivel3();
+                Juego->cargar_juego();
+                Juego->show();
+                close();
+            }
+
+
+
+
 
 //}
 //    info>>Juego->control->puntaje;
