@@ -42,10 +42,13 @@ public:
     void explosion(int x,int y);
     void nivel1();
     void nivel2();
+    void nivel3();
     void multijugador();
     void avanzar();
+    void avanzar2();
     void colision();
     bool sumar,opc_multijugador;
+    int contventana;
     momia* jugador;
     momia* jugador2;
     QList<base*> plataformas;
@@ -58,7 +61,7 @@ private:
     bool mover, saltar,lanzar,saltoparabolico,col, mover_j2, saltar_j2, lanzar_j2, saltoparabolico_j2;
     QGraphicsScene *scene;
     float dt,dt2;
-    int cont,contventana, tipo_mov1 ,tipo_mov2;
+    int cont, tipo_mov1 ,tipo_mov2;
     QMediaPlayer* salto;
     QMediaPlayer* lanzar2;
     QMovie* lluvia;

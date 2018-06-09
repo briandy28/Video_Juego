@@ -91,15 +91,14 @@ void juego::nivel1()
 
 void juego::nivel2()
 {
-    scene->setBackgroundBrush(QBrush(QImage(":/N2")));
-    jugador=new momia();
-    scene->addItem(jugador);
-    suelo = new base();
+    scene->setBackgroundBrush(QBrush(QImage(":/N2.jpg")));
+    scene->setSceneRect(jugador->getPX(),10,1000,500);
     suelo->setPx_base(-40);
     suelo->setPy_base(525);
     suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
-    suelo->setPixmap(QPixmap(":/suelo"));
-    scene->addItem(suelo);
+    suelo->setPixmap(QPixmap(":/sueloN2.jpg"));
+    scene->addItem(jugador);
+    jugador->setPos(0,370);
     mover=false;
     saltar=false;
     lanzar=false;
@@ -113,6 +112,25 @@ void juego::nivel2()
     timer3->start(30000);
     timer_Plataforma->start(5000);
 
+}
+
+void juego::nivel3()
+{
+    scene->setBackgroundBrush(QBrush(QImage(":/N3.jpg")));
+    suelo->setPx_base(-40);
+    suelo->setPy_base(525);
+    suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
+    suelo->setPixmap(QPixmap(":/suelo.jpg"));
+    jugador->setPos(0,370);
+    scene->addItem(jugador);
+    mover=false;
+    saltar=false;
+    lanzar=false;
+    lluvia->start();
+    timer1->start(40);
+    timer2->start(2500);
+    timer3->start(30000);
+    timer_Plataforma->start(5000) ;
 }
 
 void juego::multijugador()
@@ -156,10 +174,43 @@ void juego::avanzar()
           scene->removeItem(plataformas.at(i));
        }
        plataformas.clear();
-       delete jugador;
-       close();
+       //delete jugador;
        ventana->show();
+       contventana=4;
+       close();
+
    }
+}
+
+void juego::avanzar2()
+{
+    if(int(control->puntaje)==(20)){ contventana++;qDebug()<<"cuando esta en la funcion"<<contventana;}
+    if(contventana==1)
+    {
+         //Se debe parar los stop y eliminar todos los objetos
+        timer1->stop();
+        timer2->stop();
+        timer3->stop();
+        timer_Plataforma->stop();
+        lluvia->stop();
+        qDebug()<<"llego aca........"<<plataformas.size();
+        //dddui->gotas->clear();
+        scene->removeItem(jugador);
+       // delete jugador;
+        if(plataformas.size()!=0){
+        for(int i=0;i<int(plataformas.size());i++)
+        {
+           scene->removeItem(plataformas.at(i));
+        }
+        }
+        qDebug()<<"antes";
+        plataformas.clear();
+        qDebug()<<"despues";
+
+        ventana->show();
+        close();
+
+    }
 }
 
 void juego::colision()
@@ -178,9 +229,10 @@ void juego::colision()
                 break;
             }
             else{
+            col=true;
             if(int(jugador->getPY())!=370 && saltar==false && saltoparabolico == false)
                 {
-                jugador->setPY(370);jugador->setPos(jugador->getPX(),jugador->getPY());col=true;
+                jugador->setPY(370);jugador->setPos(jugador->getPX(),jugador->getPY());
                 }
             }
        }
@@ -308,6 +360,7 @@ void juego::generar_obst()
 void juego::generar_plataforma()
 {
     base * plataforma = new base();
+    qDebug()<<plataformas.size();
     if(int(plataformas.size())==0){plataforma->setPx_base(jugador->getPX() + 1100);}
     else{plataforma->setPx_base(plataformas.last()->getPx_base() + 1100);}
     plataformas.append(plataforma);

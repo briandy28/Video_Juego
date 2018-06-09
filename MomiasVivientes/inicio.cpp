@@ -47,7 +47,6 @@ void inicio::on_pushButton_clicked()
     }
 }
 
-
 void inicio::on_pushButton_2_clicked()
 {   //reiniciar
     ui->error->clear();
