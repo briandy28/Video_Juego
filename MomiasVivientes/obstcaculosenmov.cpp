@@ -31,7 +31,7 @@ void obstcaculosenmov::setPY(float value)
     PY = value;
 }
 
-void obstcaculosenmov::inciar1()
+void obstcaculosenmov::iniciar1()
 {
     timer->start(100);
 }

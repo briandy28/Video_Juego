@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-using namespace std;
+
 extern juego *Juego;
 extern niveles *ventana;
 using namespace std;
@@ -16,43 +16,53 @@ juego::juego(QWidget *parent) :
     scene = new QGraphicsScene(10,10,1000,500);
     scene->setBackgroundBrush(QBrush(QImage(":/N1")));
     ui->graphicsView->setScene(scene);
+    jugador=new momia();
+
     timer1=new QTimer();
     connect(timer1,SIGNAL(timeout()),this,SLOT(actualizar()));
+
     timer2 = new QTimer();
     connect(timer2, SIGNAL(timeout()),this,SLOT(generar()));
+
     timer3 = new QTimer();
     connect(timer3, SIGNAL(timeout()),this,SLOT(generar_obst()));
+
     timer_Plataforma = new QTimer();
     connect(timer_Plataforma, SIGNAL(timeout()), this, SLOT(generar_plataforma()));
+
     suelo = new base();
-    col=true;
     suelo->setPx_base(-40);
     suelo->setPy_base(525);
     suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
     suelo->setPixmap(QPixmap(":/suelo"));
     scene->addItem(suelo);
+
+    col=true;
     mover=false;
     saltar=false;
     lanzar=false;
     saltoparabolico=false;
+    opc_multijugador = false;
+
+    cont=0;
+    contventana=0;
+    dt2=0;
+    tipo_mov1 = 0; // 1 mover derecha, 0 no mover, 2 mover izq
+    tipo_mov2 = 0;
+
     ui->punt->setText(QString("0"));
     ui->N_Bombas->setText(QString("10"));
     control=new controldejuego(0,3,10);
-    cont=0;
     salto= new QMediaPlayer(this);
     salto->setVolume(100);
     salto->setMedia(QUrl("qrc:/salto.mp3"));
     lanzar2 = new QMediaPlayer();
     lanzar2->setMedia(QUrl("qrc:/lanzar.mp3"));
+
     QSize size(1000, 500);
     lluvia = new QMovie(":/lluvia.gif");
     lluvia->setScaledSize(size);
     ui->gotas->setMovie(lluvia);
-    contventana=0;
-    dt2=0;
-    opc_multijugador = false;
-    tipo_mov1 = 0; // 1 mover derecha, 0 no mover, 2 mover izq
-    tipo_mov2 = 0;
 }
 
 juego::~juego(){delete ui;}
@@ -73,59 +83,67 @@ void juego::sumar_puntaje()
 
 void juego::restar_vidas()
 {
- control->vidas--;
- if(control->vidas==2){ui->vida3->clear();}
- if(control->vidas==1){ui->vida2->clear();}
- if(control->vidas==0){ui->vida1->clear();}
+    control->vidas--;
+    if(control->vidas==2){ui->vida3->clear();}
+    if(control->vidas==1){ui->vida2->clear();}
+    if(control->vidas==0){ui->vida1->clear();}
 }
 
 void juego::nivel1()
 {
-    jugador=new momia();
+    ui->vidasJ1->clear();
+    ui->vidasJ2_4->clear();
     scene->addItem(jugador);
-    timer1->start(40);
-    timer2->start(2500);
-    timer3->start(30000);
-    timer_Plataforma->start(10000);
+    timer1->start(40);                  //Timer de actualizar
+    timer2->start(2500);                //Timer de gemas
+    timer3->start(50000);                //Timer de animales
+    timer_Plataforma->start(2500);      //Timer de Plataformas
 }
 
 void juego::nivel2()
 {
+    ui->vidasJ1->clear();
+    ui->vidasJ2_4->clear();
     scene->setBackgroundBrush(QBrush(QImage(":/N2.jpg")));
     scene->setSceneRect(jugador->getPX(),10,1000,500);
     suelo->setPx_base(-40);
     suelo->setPy_base(525);
     suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
     suelo->setPixmap(QPixmap(":/sueloN2.jpg"));
-    scene->addItem(jugador);
+
     jugador->setPos(0,370);
+    scene->addItem(jugador);
+
     mover=false;
     saltar=false;
     lanzar=false;
-    QSize size(1000, 500);
-    lluvia = new QMovie(":/lluvia.gif");
-    lluvia->setScaledSize(size);
-    ui->gotas->setMovie(lluvia);
+
     lluvia->start();
     timer1->start(40);
     timer2->start(2500);
     timer3->start(30000);
-    timer_Plataforma->start(5000);
+    timer_Plataforma->start(2500);
 
 }
 
 void juego::nivel3()
 {
+    ui->vidasJ1->clear();
+    ui->vidasJ2_4->clear();
+
     scene->setBackgroundBrush(QBrush(QImage(":/N3.jpg")));
     suelo->setPx_base(-40);
     suelo->setPy_base(525);
     suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
     suelo->setPixmap(QPixmap(":/suelo.jpg"));
-    jugador->setPos(0,370);
+
     scene->addItem(jugador);
+    jugador->setPos(0,370);
+
     mover=false;
     saltar=false;
     lanzar=false;
+
     lluvia->start();
     timer1->start(40);
     timer2->start(2500);
@@ -135,10 +153,19 @@ void juego::nivel3()
 
 void juego::multijugador()
 {
+    ui->label->clear();
+    ui->punt->clear();
+    ui->label_2->clear();
+    ui->N_Bombas->clear();
+    ui->vidasJ2->setPixmap(QPixmap(":/vidas.png"));
+    ui->vidasJ2_2->setPixmap(QPixmap(":/vidas.png"));
+    ui->vidasJ2_3->setPixmap(QPixmap(":/vidas.png"));
+    control->control_multijugador(3,3);
     opc_multijugador = true;
     jugador =new momia();
     scene->addItem(jugador);
     jugador2 = new momia();
+    jugador2->setPixmap(QPixmap(":/Donald2_1.png"));
     jugador2->setPX(500);
     jugador2->setPY(370);
     jugador2->setPos(jugador2->getPX(),jugador2->getPY());
@@ -169,16 +196,25 @@ void juego::avanzar()
        timer3->stop();
        timer_Plataforma->stop();
        scene->removeItem(jugador);
+       if(plataformas.size()!=0)
+       {
        for(int i=0;i<int(plataformas.size());i++)
        {
           scene->removeItem(plataformas.at(i));
        }
+       }
        plataformas.clear();
-       //delete jugador;
+       if(plataformitas.size()!=0)
+       {
+       for(int i=0;i<int(plataformitas.size());i++)
+       {
+          scene->removeItem(plataformitas.at(i));
+       }
+       }
+       plataformitas.clear();
        ventana->show();
-       contventana=4;
+       contventana = 4;
        close();
-
    }
 }
 
@@ -193,10 +229,7 @@ void juego::avanzar2()
         timer3->stop();
         timer_Plataforma->stop();
         lluvia->stop();
-        qDebug()<<"llego aca........"<<plataformas.size();
-        //dddui->gotas->clear();
-        scene->removeItem(jugador);
-       // delete jugador;
+        qDebug()<<"llego aca........"<<plataformas.size();       
         if(plataformas.size()!=0){
         for(int i=0;i<int(plataformas.size());i++)
         {
@@ -206,7 +239,15 @@ void juego::avanzar2()
         qDebug()<<"antes";
         plataformas.clear();
         qDebug()<<"despues";
-
+        if(plataformitas.size()!=0)
+        {
+        for(int i=0;i<int(plataformitas.size());i++)
+        {
+           scene->removeItem(plataformitas.at(i));
+        }
+        }
+        qDebug()<<"antes";
+        plataformitas.clear();
         ventana->show();
         close();
 
@@ -215,13 +256,15 @@ void juego::avanzar2()
 
 void juego::colision()
 {
-   for(int i =0;i<int(plataformas.size());i++)
-   {
-       if(int(plataformas.size())!=0)
-       {
+
+    if(int(plataformas.size())!=0)
+    {
+        for(int i =0;i<int(plataformas.size());i++)
+        {
+
            if(jugador->collidesWithItem(plataformas.at(i)))
             {
-                jugador->setPY(plataformas.at(i)->getPy_base()-150);
+                jugador->setPY(plataformas.at(i)->getPy_base()-170);
                 jugador->setPos(jugador->getPX(),jugador->getPY());
                 col=false;
                 saltar=false;
@@ -229,19 +272,64 @@ void juego::colision()
                 break;
             }
             else{
-            col=true;
-            if(int(jugador->getPY())!=370 && saltar==false && saltoparabolico == false)
-                {
-                jugador->setPY(370);jugador->setPos(jugador->getPX(),jugador->getPY());
-                }
+                col=true;
+                if(int(jugador->getPY())!=370 && saltar==false && saltoparabolico == false)
+                    {
+                    jugador->setPY(370);jugador->setPos(jugador->getPX(),jugador->getPY());
+                    }
+            }
+       }       
+   }
+    if(int(plataformitas.size())!=0)
+    {
+        for(int i =0;i<int(plataformitas.size());i++)
+        {
+
+           if(jugador->collidesWithItem(plataformitas.at(i)))
+            {
+               jugador->setPX(plataformitas.at(i)->getPx_base()-200);
+               jugador->setPos(jugador->getPX(),jugador->getPY());
+               break;
             }
        }
    }
+
 }
+
+void juego::vidas_multijugador()
+{
+    if(control->vidas==2){ui->vida3->clear();}
+    if(control->vidas==1){ui->vida2->clear();}
+    if(control->vidas==0){ui->vida1->clear();}
+    if(control->vidasjugador2==2){ui->vidasJ2_3->clear();}
+    if(control->vidasjugador2==1){ui->vidasJ2_2->clear();}
+    if(control->vidasjugador2==0){ui->vidasJ2->clear();}
+
+
+}
+
+void juego::cargar_juego()
+{
+    //Mostrar Puntaje en el ui
+    int numero =control->puntaje;
+    QString mostrar;
+    mostrar= QString::number(numero);
+    ui->punt->setText(mostrar);
+
+    //Mostrar Cantidad de Vidasen el ui
+    if(control->vidas==2){ui->vida3->clear();}
+    if(control->vidas==1){ui->vida2->clear();ui->vida3->clear();}
+    if(control->vidas==0){ui->vida1->clear();ui->vida2->clear();ui->vida3->clear();}
+    /*Mostrar mensaje que no permita jugar*/
+}
+
 
 void juego::generar()
 {
     gema *gema1 = new gema();
+    gema1->setPX(plataformas.last()->getPx_base()+80);
+    gema1->setPY(plataformas.last()->getPy_base()-8);
+    gema1->setPos(gema1->getPX(),gema1->getPY());
     scene->addItem(gema1);
 }
 
@@ -289,7 +377,6 @@ void juego::actualizar()
         {
             scene->removeItem(plataformas.first());
             delete plataformas.first();
-            qDebug()<<"si entro.................";
         }
     }
     //opcion para el movimiento del fondo y el piso junto con la momia
@@ -332,20 +419,20 @@ void juego::actualizar()
 
 void juego::generar_obst()
 {
-   obstcaculosenmov *escarabajo = new obstcaculosenmov();
-   scene->addItem(escarabajo);
-   escarabajo->inciar1();
-   if(control->puntaje>=10)
-      {
+    obstcaculosenmov *escarabajo = new obstcaculosenmov();
+    scene->addItem(escarabajo);
+    escarabajo->iniciar1();
+    if(control->puntaje>=10)
+    {
       obstcaculosenmov *escarabajo2 = new obstcaculosenmov();
       escarabajo2->setPY(400);
       escarabajo->setPX(1300);
       escarabajo2->setPos(escarabajo2->getPX(),escarabajo->getPY());
       scene->addItem(escarabajo2);
       escarabajo2->iniciar2();
-      }
-      if(control->puntaje>=20)
-      {
+    }
+    if(control->puntaje>=20)
+    {
       obstcaculosenmov *bola = new obstcaculosenmov();
       bola->setPixmap(QPixmap(":/bolaenelaire.png"));
       bola->setPY(10);
@@ -353,19 +440,25 @@ void juego::generar_obst()
       bola->setPos(bola->getPX(),bola->getPY());
       scene->addItem(bola);
       bola->iniciar3();
-      }
+    }
 
 }
 
 void juego::generar_plataforma()
 {
     base * plataforma = new base();
-    qDebug()<<plataformas.size();
-    if(int(plataformas.size())==0){plataforma->setPx_base(jugador->getPX() + 1100);}
+    if(int(plataformas.size())==0){plataforma->setPx_base(1200);}
     else{plataforma->setPx_base(plataformas.last()->getPx_base() + 1100);}
     plataformas.append(plataforma);
     plataforma->setPos(plataformas.last()->getPx_base(), plataformas.last()->getPy_base());
     scene->addItem(plataformas.last());
+    base * plataforma2 = new base();
+    plataforma2->setPixmap(QPixmap(":/barraPequeñita.png"));
+    plataforma2->setPx_base(plataforma->getPx_base()-2);
+    plataforma2->setPy_base(plataforma->getPy_base());
+    plataformitas.append(plataforma2);
+    plataforma2->setPos(plataformitas.last()->getPx_base(), plataformitas.last()->getPy_base());
+    scene->addItem(plataformitas.last());
 }
 
 //1 mover derecha, 0 no mover, 2 mover izq
@@ -376,11 +469,15 @@ void juego::keyPressEvent(QKeyEvent *event)
     if( event->key() == Qt::Key_D ){ mover = true, tipo_mov1=1;}
     if( event->key() == Qt::Key_A ){ mover = true, tipo_mov1=2;}
     if(event->key()==Qt::Key_E){
-        if(control->num_Bombas>0){
+        if(control->num_Bombas>0)
+        {
             lanzar2->play();
             objcaida* bola = new objcaida();
-            jugador->lanzar();
+            bola->setPY(jugador->getPY());
+            bola->setPos(bola->getPX(),bola->getPY());
             scene->addItem(bola);
+            bola->iniciar1();
+            jugador->lanzar();
             control->num_Bombas--;
             //ui->N_Bombas;
             int numero_bombas =control->num_Bombas;
@@ -401,7 +498,8 @@ void juego::keyPressEvent(QKeyEvent *event)
         objcaida* bola = new objcaida();
         bola->setPX(jugador2->getPX()+100);
         bola->setPos(bola->getPX(),bola->getPY());
-        jugador2->lanzar();
+        bola->iniciar2();
+        jugador2->lanzar_multij();
         scene->addItem(bola);}
 
 }
@@ -411,9 +509,9 @@ void juego::keyReleaseEvent(QKeyEvent *event)
     if( event->key() == Qt::Key_D ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
     if( event->key() == Qt::Key_A ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
     if( event->key() == Qt::Key_E ){ jugador->setPixmap(QPixmap(":/Donald1.png"));}
-    if( event->key() == Qt::Key_J ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald1.png"));}
-    if( event->key() == Qt::Key_L ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald1.png"));}
-    if( event->key() == Qt::Key_U ){ jugador2->setPixmap(QPixmap(":/Donald1.png"));}
+    if( event->key() == Qt::Key_J ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald2_1.png"));}
+    if( event->key() == Qt::Key_L ){ mover_j2 = false; jugador2->setPixmap(QPixmap(":/Donald2_1.png"));}
+    if( event->key() == Qt::Key_U ){ jugador2->setPixmap(QPixmap(":/Donald2_1.png"));}
 }
 
 void juego::on_actionGuardar_Juego_triggered()
@@ -421,21 +519,7 @@ void juego::on_actionGuardar_Juego_triggered()
     QFile file("videojuego.txt");
     file.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream texto(&file);
-    texto<<control->puntaje<<QString("\t puntaje \n");
-    texto<<control->vidas<<QString("\t numero de vidas");
+    texto<<control->puntaje<<QString(" ");
+    texto<<control->vidas;
     file.close();
-}
-
-void juego::on_actionCargar_Juego_triggered()
-{
-    QFile filea("videojuego.txt");
-    filea.open(QIODevice::ReadOnly);
-    QTextStream texto(&filea);
-//    filea >> control->puntaje;
-    while (!texto.atEnd()) {
-        QString line = texto.readLine();
-//        control->puntaje(line);
-        texto>>control->puntaje;
-    }
-
 }

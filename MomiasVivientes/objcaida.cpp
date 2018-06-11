@@ -5,12 +5,17 @@ objcaida::objcaida(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(paren
     PX= Juego->jugador->getPX()+100;
     PY= 370;
     dt=0;
+    dt2=0;
     setPos(PX,PY);
     setPixmap(QPixmap(":/bola.png"));
     TimerLlamas = new QTimer;
     connect(TimerLlamas, SIGNAL(timeout()), this, SLOT(mover()));
-    TimerLlamas->start(40);
+    TimerLlamas2 = new QTimer;
+    connect(TimerLlamas2, SIGNAL(timeout()), this, SLOT(movver2_()));
     mover2=true;
+    mover3=true;
+    restarvidas1=false;
+    restarvidas2=false;
     cont=0;
     cont2=0;
     sonido= new QMediaPlayer();
@@ -36,6 +41,16 @@ float objcaida::getPY() const
 void objcaida::setPY(float value)
 {
     PY = value;
+}
+
+void objcaida::iniciar1()
+{
+    TimerLlamas->start(40);
+}
+
+void objcaida::iniciar2()
+{
+    TimerLlamas2->start(40);
 }
 
 void objcaida::mover()
@@ -68,7 +83,24 @@ void objcaida::mover()
             if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
             if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));}
 
-    }
+      }
+        if(Juego->opc_multijugador==true)
+        {
+            if (colliding_items[i] == Juego->jugador2)
+            {
+                mover2=false;
+               // qDebug()<<mover2;
+                cont++;
+                cont2++;
+                if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}
+                if(cont2>=2&&cont2<4){this->setPixmap(QPixmap(":/explosion2.png"));}
+                if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
+                if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
+                if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));restarvidas2=true;}
+
+          }
+        }
+
     }
 
     if(mover2==true)
@@ -82,5 +114,94 @@ void objcaida::mover()
     if(cont==10)
     {
         scene()->removeItem(this);delete this;
+        if(restarvidas2)
+        {
+            Juego->control->vidasjugador2--;
+            Juego->vidas_multijugador();
+            if(Juego->control->vidasjugador2==0)
+            {
+                Juego->timer1->stop();
+                Juego->timer2->stop();
+                Juego->timer3->stop();
+                Juego->timer_Plataforma->stop();
+            }
+            restarvidas2=false;
+        }
+    }
+}
+
+void objcaida::movver2_()
+{
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    for (int i = 0, n = colliding_items.size(); i < n; i++ )
+    {
+        if (typeid(*(colliding_items[i])) == typeid(obstcaculosenmov))
+        {
+            mover3=false;
+            cont++;
+            cont2++;
+            if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}
+            if(cont2>=2&&cont2<4){this->setPixmap(QPixmap(":/explosion2.png"));}
+            if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
+            if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
+            if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));}
+
+
+        }
+        if (typeid(*(colliding_items[i])) == typeid(base))
+        {
+            mover3=false;
+           // qDebug()<<mover2;
+            cont++;
+            cont2++;
+            if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}
+            if(cont2>=2&&cont2<4){this->setPixmap(QPixmap(":/explosion2.png"));}
+            if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
+            if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
+            if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));}
+
+        }
+        if(Juego->opc_multijugador==true)
+        {
+        if (colliding_items[i] == Juego->jugador)
+        {
+            mover2=false;
+           // qDebug()<<mover2;
+            cont++;
+            cont2++;
+            if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}
+            if(cont2>=2&&cont2<4){this->setPixmap(QPixmap(":/explosion2.png"));}
+            if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
+            if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
+            if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));restarvidas1=true;}
+
+
+      }
+      }
+    }
+
+    if(mover3==true)
+    {
+    PX=PX-8;
+    PY = PY -35*dt2+ 20*dt2*dt2;
+    dt2+=0.1;
+    setPos(PX,PY);
+    }
+
+    if(cont==10)
+    {
+        scene()->removeItem(this);delete this;
+        if(restarvidas1)
+        {Juego->control->vidas--;
+        Juego->vidas_multijugador();
+        if(Juego->control->vidas==0)
+        {
+            Juego->timer1->stop();
+            Juego->timer2->stop();
+            Juego->timer3->stop();
+            Juego->timer_Plataforma->stop();
+        }
+        }
+        restarvidas1=false;
     }
 }

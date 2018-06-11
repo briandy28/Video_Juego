@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>910</x>
-      <y>10</y>
+      <y>0</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -44,7 +44,7 @@
     <property name="geometry">
      <rect>
       <x>960</x>
-      <y>10</y>
+      <y>0</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -60,7 +60,7 @@
     <property name="geometry">
      <rect>
       <x>1010</x>
-      <y>10</y>
+      <y>0</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -123,19 +123,99 @@
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="vidasJ2">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>0</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vidasJ2_2">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>0</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vidasJ2_3">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>0</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vidasJ1">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>40</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Black</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>vidas jugador 1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vidasJ2_4">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>40</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Black</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>vidas jugador 2</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>260</x>
       <y>10</y>
-      <width>211</width>
+      <width>241</width>
       <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>AR CENA</family>
-      <pointsize>26</pointsize>
+      <pointsize>24</pointsize>
      </font>
     </property>
     <property name="text">
@@ -145,17 +225,11 @@
    <widget class="QLabel" name="N_Bombas">
     <property name="geometry">
      <rect>
-      <x>570</x>
+      <x>520</x>
       <y>10</y>
-      <width>81</width>
+      <width>51</width>
       <height>41</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>36</pointsize>
-     </font>
     </property>
     <property name="text">
      <string/>

@@ -24,11 +24,6 @@ public:
 private:
     float Px_base;
     float Py_base;
-    QTimer *eliminar;
-public slots:
-    void remover_base();
-//    void remover_plataforma();
-
 };
 
 #endif // BASE_H

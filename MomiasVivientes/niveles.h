@@ -21,9 +21,7 @@ public:
 
 private slots:
     void on_nivel1_clicked();
-
     void on_nivel2_clicked();
-
     void on_nivel3_clicked();
     void verificar_nivel();
 

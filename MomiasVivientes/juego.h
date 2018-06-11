@@ -47,15 +47,16 @@ public:
     void avanzar();
     void avanzar2();
     void colision();
-    bool sumar,opc_multijugador;
+    void vidas_multijugador();
+    void cargar_juego();
+    bool sumar, opc_multijugador;
     int contventana;
     momia* jugador;
     momia* jugador2;
     QList<base*> plataformas;
+    QList<base*> plataformitas;
     base* suelo;
     QFile archivo;
-
-    //fstream archivo;
 
 private:
     bool mover, saltar,lanzar,saltoparabolico,col, mover_j2, saltar_j2, lanzar_j2, saltoparabolico_j2;
@@ -65,6 +66,7 @@ private:
     QMediaPlayer* salto;
     QMediaPlayer* lanzar2;
     QMovie* lluvia;
+
 public slots:
     void generar();
     void actualizar();
@@ -72,9 +74,9 @@ public slots:
     void generar_plataforma();
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+
 private slots:
     void on_actionGuardar_Juego_triggered();
-    void on_actionCargar_Juego_triggered();
 };
 
 #endif // JUEGO_H

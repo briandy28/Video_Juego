@@ -6,8 +6,8 @@
 #include <QGraphicsScene>
 #include <typeinfo>
 #include <QDebug>
-#include<QGraphicsTextItem>
-#include<QMediaPlayer>
+#include <QGraphicsTextItem>
+#include <QMediaPlayer>
 #include "momia.h"
 #include "juego.h"
 
@@ -19,18 +19,17 @@ private:
     QTimer* timer;
     QTimer* timer2;
     QTimer* timer3;
-    QMediaPlayer* sonido;
+    QMediaPlayer *sonido;
     int cont;
     bool mover_;
-
 public:
     explicit obstcaculosenmov(QGraphicsItem *parent = nullptr);
 
     float getPX() const;
     void setPX(float value);
     float getPY() const;
-    void setPY(float value);   
-    void inciar1();
+    void setPY(float value);
+    void iniciar1();
     void iniciar2();
     void iniciar3();
 
@@ -38,7 +37,6 @@ public slots:
     void mover();
     void mover2();
     void mover3();
-
 };
 
 

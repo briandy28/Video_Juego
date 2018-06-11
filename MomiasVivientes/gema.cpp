@@ -15,17 +15,14 @@ float gema::getPX() const
 {
     return PX;
 }
-
 void gema::setPX(float value)
 {
     PX = value;
 }
-
 float gema::getPY() const
 {
     return PY;
 }
-
 void gema::setPY(float value)
 {
     PY = value;

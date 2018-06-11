@@ -25,6 +25,7 @@ public:
     void setPY(float value);
     float getPY() const;
     float getPX() const;
+
 private:
     float PX;
     float PY;

@@ -18,7 +18,6 @@
         <file>lanzar4.png</file>
         <file>lanzar5.png</file>
         <file>lanzar6.png</file>
-        <file>barraPequeña.png</file>
         <file>explosion1.png</file>
         <file>explosion2.png</file>
         <file>explosion3.png</file>
@@ -46,7 +45,9 @@
         <file>bolaenelaire.png</file>
         <file>multijugador.jpg</file>
         <file>N2.jpg</file>
-        <file>sueloN2.jpg</file>
         <file>N3.jpg</file>
+        <file>sueloN2.jpg</file>
+        <file>barraPequeña.png</file>
+        <file>barraPequeñita.png</file>
     </qresource>
 </RCC>
