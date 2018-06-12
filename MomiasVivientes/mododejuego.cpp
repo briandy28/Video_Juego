@@ -1,8 +1,15 @@
 #include "mododejuego.h"
 #include "ui_mododejuego.h"
 #include "juego.h"
+#include "controldejuego.h"
+#include "nivel2.h"
+#include "nivel3.h"
+
+extern nivel2 *Nivel2;
+extern nivel3 *Nivel3;
 extern niveles *ventana;
 extern juego *Juego;
+extern controldejuego *control;
 modoDeJuego::modoDeJuego(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::modoDeJuego)
@@ -20,13 +27,17 @@ void modoDeJuego::on_pushButton_2_clicked()
     //un jugador
    ventana->show();
    close();
+   this->~modoDeJuego();
 }
 
 void modoDeJuego::on_pushButton_clicked()
-{//multijugador
+{
+    //multijugador
     Juego->multijugador();
     Juego->show();
     close();
+    this->~modoDeJuego();
+
 }
 
 void modoDeJuego::on_pushButton_Cargar_clicked()
@@ -36,55 +47,47 @@ void modoDeJuego::on_pushButton_Cargar_clicked()
     file.open(QIODevice::ReadOnly);     //Abre el archiv en modo lectura
     info=file.readLine();
     int n;
-    //while(n>=0){      //Ciclo para guardar cada dato de la linea de texto en su posicion correspondiente en el arreglo vec
 
     n = info.indexOf(" ");
-    Juego->control->puntaje = info.left(n).toInt();
-    Juego->control->vidas = info.right(n).toInt();
+    control->puntaje = info.left(n).toInt();
+   control->vidas = info.right(n).toInt();
+   qDebug()<<control->puntaje;
+   qDebug()<<control->vidas;
 
-    if(Juego->control->puntaje<10)
+    if(control->puntaje<10)
     {
         Juego->nivel1();
+        Juego->nivel1_=true;
         Juego->cargar_juego();
         Juego->show();
         close();
+        this->~modoDeJuego();
     }
     else
-        if(Juego->control->puntaje>=10 || Juego->control->puntaje<20)
+        if(control->puntaje>=10 && control->puntaje<20)
         {
-            Juego->nivel2();
-            Juego->cargar_juego();
-            Juego->show();
+            qDebug()<<control->puntaje<<control->vidas<<"entro en puntaje <20";
+            Juego->nivel1_=false;
+            Nivel2->nivel2_=true;
+            Nivel2->iniciar_timer();
+            Nivel2->cargar_juego();
+            Nivel2->show();
             close();
+            this->~modoDeJuego();
         }
         else
-            if(Juego->control->puntaje>=20)
+            if(control->puntaje>=20)
             {
-                //Juego->nivel3();
-                Juego->cargar_juego();
-                Juego->show();
+                qDebug()<<control->puntaje<<control->vidas<<"entro en puntaje >20";
+                Juego->nivel1_=false;
+                Nivel2->nivel2_=false;
+                Nivel3->nivel3_=true;
+                Nivel3->iniciar_timer();
+                Nivel3->cargar_juego();
+                Nivel3->show();
                 close();
+                this->~modoDeJuego();
             }
-
-
-
-
-
-//}
-//    info>>Juego->control->puntaje;
-
-//    info=file.readLine();
-//    info>>Juego->control->vidas;
-
-    //qDebug<<Juego->control->puntaje<<","<<Juego->control->vidas;
-
-//    QFile filea("videojuego.txt");
-//    filea.open(QIODevice::ReadOnly);
-//    QTextStream texto(&filea);
-////    filea >> control->puntaje;
-//    while (!texto.atEnd()) {
-//        QString line = texto.readLine();
-////        control->puntaje(line);
-//        texto>>control->puntaje;
-//    }
 }
+
+

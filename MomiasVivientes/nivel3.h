@@ -1,5 +1,6 @@
-#ifndef JUEGO_H
-#define JUEGO_H
+#ifndef NIVEL3_H
+#define NIVEL3_H
+
 
 #include <QMainWindow>
 #include <QGraphicsScene>
@@ -11,28 +12,26 @@
 #include <Qsize>
 #include <QFile>
 #include <QTextStream>
+#include <time.h>
 
 #include "gema.h"
 #include "momia.h"
-#include <time.h>
 #include "obstcaculosenmov.h"
 #include "objcaida.h"
 #include "base.h"
 #include "aviso.h"
 
 namespace Ui {
-class juego;
+class nivel3;
 }
 
-class juego : public QMainWindow
+class nivel3 : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit juego(QWidget *parent = 0);
-    ~juego();
-    QMediaPlayer *sonido;
-    Ui::juego *ui;
+    explicit nivel3(QWidget *parent = 0);
+    ~nivel3();
     QTimer* timer1;
     QTimer* timer2;
     QTimer* timer3;
@@ -40,35 +39,29 @@ public:
     QTimer* nivel;
     void sumar_puntaje();
     void restar_vidas();
-    void explosion(int x,int y);
-    void nivel1();
-    void nivel2();
-    void nivel3();
-    void multijugador();
-    void avanzar();
     void avanzar2();
     void colision();
-    void vidas_multijugador();
     void cargar_juego();
+    void iniciar_timer();
     void iniciar_puntaje();
-    bool sumar, opc_multijugador, nivel1_;
+    bool sumar, opc_multijugador, nivel3_;
     int contventana;
+    int cont, tipo_mov1 ,tipo_mov2;
     momia* jugador;
-    momia* jugador2;
     QList<base*> plataformas;
     QList<base*> plataformitas;
     base* suelo;
 
 private:
-    bool mover, saltar,lanzar,saltoparabolico,col, mover_j2, saltar_j2, lanzar_j2, saltoparabolico_j2;
+    Ui::nivel3 *ui;
+    bool mover, saltar,lanzar,saltoparabolico,col;
     QGraphicsScene *scene;
     float dt,dt2;
-    int cont, tipo_mov1 ,tipo_mov2;
     QMediaPlayer* salto;
     QMediaPlayer* lanzar2;
     QMovie* lluvia;
     aviso* aviso_;
-
+    int cont_obstaculos ;
 public slots:
     void generar();
     void actualizar();
@@ -78,9 +71,7 @@ public slots:
     void keyReleaseEvent(QKeyEvent *event);
 
 private slots:
-//    void on_actionGuardar_Juego_triggered();
-    void on_actionGuardar_juego_Nivel1_triggered();
-    void on_btn_Guardar_clicked();
+    void on_actionGuardar_Juego_n3_triggered();
 };
 
-#endif // JUEGO_H
+#endif // NIVEL3_H

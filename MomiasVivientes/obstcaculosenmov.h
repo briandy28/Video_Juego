@@ -6,17 +6,24 @@
 #include <QGraphicsScene>
 #include <typeinfo>
 #include <QDebug>
-#include<QGraphicsTextItem>
+#include <QGraphicsTextItem>
+#include <QMediaPlayer>
 #include "momia.h"
 #include "juego.h"
+#include "aviso.h"
 
 class obstcaculosenmov: public QObject, public QGraphicsPixmapItem
 {
      Q_OBJECT
 private:
-    float PX, PY;
+    float PX, PY,dt;
     QTimer* timer;
-    int cont;
+    QTimer* timer2;
+    QTimer* timer3;
+    QMediaPlayer *sonido;
+    int cont,amplitud;
+    bool mover_;
+    aviso * perdiste;
 public:
     explicit obstcaculosenmov(QGraphicsItem *parent = nullptr);
 
@@ -24,8 +31,14 @@ public:
     void setPX(float value);
     float getPY() const;
     void setPY(float value);
+    void iniciar1();
+    void iniciar2();
+    void iniciar3();
+
 public slots:
     void mover();
+    void mover2();
+    void mover3();
 };
 
 

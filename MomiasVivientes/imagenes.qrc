@@ -18,7 +18,6 @@
         <file>lanzar4.png</file>
         <file>lanzar5.png</file>
         <file>lanzar6.png</file>
-        <file>barraPequeña.png</file>
         <file>explosion1.png</file>
         <file>explosion2.png</file>
         <file>explosion3.png</file>
@@ -43,5 +42,46 @@
         <file>lanzar2_4.png</file>
         <file>lanzar2_5.png</file>
         <file>lanzar2_6.png</file>
+        <file>bolaenelaire.png</file>
+        <file>multijugador.jpg</file>
+        <file>N2.jpg</file>
+        <file>N3.jpg</file>
+        <file>sueloN2.jpg</file>
+        <file>barraPequeña.png</file>
+        <file>barraPequeñita.png</file>
+        <file>ganaste.gif</file>
+        <file>aviso.cpp</file>
+        <file>aviso.h</file>
+        <file>base.cpp</file>
+        <file>base.h</file>
+        <file>controldejuego.cpp</file>
+        <file>controldejuego.h</file>
+        <file>controldejuego_copy.h</file>
+        <file>GameOver.gif</file>
+        <file>gema.cpp</file>
+        <file>gema.h</file>
+        <file>gemas.cpp</file>
+        <file>gemas.h</file>
+        <file>inicio.cpp</file>
+        <file>inicio.h</file>
+        <file>juego.cpp</file>
+        <file>juego.h</file>
+        <file>main.cpp</file>
+        <file>mainwindow.cpp</file>
+        <file>mainwindow.h</file>
+        <file>mododejuego.cpp</file>
+        <file>mododejuego.h</file>
+        <file>momia.cpp</file>
+        <file>momia.h</file>
+        <file>nivel2.cpp</file>
+        <file>nivel2.h</file>
+        <file>nivel3.cpp</file>
+        <file>nivel3.h</file>
+        <file>niveles.cpp</file>
+        <file>niveles.h</file>
+        <file>objcaida.cpp</file>
+        <file>objcaida.h</file>
+        <file>obstcaculosenmov.cpp</file>
+        <file>obstcaculosenmov.h</file>
     </qresource>
 </RCC>

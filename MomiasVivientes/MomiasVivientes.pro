@@ -37,7 +37,10 @@ SOURCES += \
     obstcaculosenmov.cpp \
     objcaida.cpp\
     base.cpp \
-    niveles.cpp
+    niveles.cpp \
+    aviso.cpp \
+    nivel2.cpp \
+    nivel3.cpp
 
 
 HEADERS += \
@@ -51,14 +54,20 @@ HEADERS += \
         obstcaculosenmov.h \
         objcaida.h \
         base.h \
-    niveles.h
+    niveles.h \
+    aviso.h \
+    nivel2.h \
+    nivel3.h
 
 FORMS += \
         mainwindow.ui \
         inicio.ui \
         mododejuego.ui \
         juego.ui \
-    niveles.ui
+    niveles.ui \
+    aviso.ui \
+    nivel2.ui \
+    nivel3.ui
 
 RESOURCES += \
     imagenes.qrc

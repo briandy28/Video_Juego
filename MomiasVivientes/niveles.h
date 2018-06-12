@@ -5,7 +5,6 @@
 #include<QTimer>
 #include "juego.h"
 #include "inicio.h"
-
 namespace Ui {
 class niveles;
 }
@@ -17,12 +16,11 @@ class niveles : public QWidget
 public:
     explicit niveles(QWidget *parent = 0);
     ~niveles();
+    int nivel2,nivel3;
 
 private slots:
     void on_nivel1_clicked();
-
     void on_nivel2_clicked();
-
     void on_nivel3_clicked();
     void verificar_nivel();
 

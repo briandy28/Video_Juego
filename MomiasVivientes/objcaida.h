@@ -8,7 +8,6 @@
 #include <QDebug>
 #include<QGraphicsTextItem>
 #include <QMediaPlayer>
-#include "base.h"
 #include "juego.h"
 
 class objcaida : public QObject, public QGraphicsPixmapItem

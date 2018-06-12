@@ -1,8 +1,16 @@
 #include "objcaida.h"
+#include "controldejuego.h"
+#include "nivel2.h"
+#include "nivel3.h"
 extern juego *Juego;
+extern nivel2 *Nivel2;
+extern nivel3 *Nivel3;
+extern controldejuego *control;
 objcaida::objcaida(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
-    PX= Juego->jugador->getPX()+100;
+   if(control->puntaje<10){PX= Juego->jugador->getPX()+100;}
+   if(control->puntaje>=10 && control->puntaje<=20){PX= Nivel2->jugador->getPX()+100;}
+   if(control->puntaje>=20 && control->puntaje<=30){PX= Nivel3->jugador->getPX()+100;}
     PY= 370;
     dt=0;
     dt2=0;
@@ -45,7 +53,7 @@ void objcaida::setPY(float value)
 
 void objcaida::iniciar1()
 {
-    TimerLlamas->start(40);
+    TimerLlamas->start(60);
 }
 
 void objcaida::iniciar2()
@@ -74,7 +82,6 @@ void objcaida::mover()
         if (typeid(*(colliding_items[i])) == typeid(base))
         {
             mover2=false;
-           // qDebug()<<mover2;
             cont++;
             cont2++;
             if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}
@@ -113,12 +120,16 @@ void objcaida::mover()
 
     if(cont==10)
     {
-        scene()->removeItem(this);delete this;
+        if(control->puntaje<=10 || Juego->opc_multijugador==true){scene()->removeItem(this);delete this;}
+        if(control->puntaje>10 && control->puntaje<=20 && Juego->nivel1_==true){scene()->removeItem(this);delete this;}
+        if(control->puntaje>=20 && control->puntaje<=30 && Nivel2->nivel2_==true){scene()->removeItem(this);delete this;}
+
+
         if(restarvidas2)
         {
-            Juego->control->vidasjugador2--;
+            control->vidasjugador2--;
             Juego->vidas_multijugador();
-            if(Juego->control->vidasjugador2==0)
+            if(control->vidasjugador2==0)
             {
                 Juego->timer1->stop();
                 Juego->timer2->stop();
@@ -174,8 +185,6 @@ void objcaida::movver2_()
             if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
             if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
             if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));restarvidas1=true;}
-
-
       }
       }
     }
@@ -190,17 +199,20 @@ void objcaida::movver2_()
 
     if(cont==10)
     {
-        scene()->removeItem(this);delete this;
+        if(control->puntaje<=10 || Juego->opc_multijugador==true){scene()->removeItem(this);delete this;}
+        if(control->puntaje>10 && control->puntaje<=20){scene()->removeItem(this);delete this;}
+        if(control->puntaje>=20 && control->puntaje<=30){scene()->removeItem(this);delete this;}
         if(restarvidas1)
-        {Juego->control->vidas--;
-        Juego->vidas_multijugador();
-        if(Juego->control->vidas==0)
         {
-            Juego->timer1->stop();
-            Juego->timer2->stop();
-            Juego->timer3->stop();
-            Juego->timer_Plataforma->stop();
-        }
+           control->vidas--;
+           Juego->vidas_multijugador();
+           if(control->vidas==0)
+           {
+               Juego->timer1->stop();
+               Juego->timer2->stop();
+               Juego->timer3->stop();
+               Juego->timer_Plataforma->stop();
+            }
         }
         restarvidas1=false;
     }
