@@ -38,9 +38,9 @@ SOURCES += \
     objcaida.cpp\
     base.cpp \
     niveles.cpp \
-    aviso.cpp \
     nivel2.cpp \
-    nivel3.cpp
+    nivel3.cpp \
+    aviso.cpp
 
 
 HEADERS += \
@@ -71,3 +71,4 @@ FORMS += \
 
 RESOURCES += \
     imagenes.qrc
+

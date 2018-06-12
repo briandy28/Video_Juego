@@ -1,8 +1,12 @@
+/* Esta clase se encarga de cargar el segundo nivel del juego.*/
+
 #include "nivel3.h"
 #include "ui_nivel3.h"
 #include "controldejuego.h"
 extern controldejuego *control;
 
+/* Constructor de la clase, encargado de inicializar todas las variables, timer, agregar la escena, el suelo
+y asignar los sonidos que se utilizaran en este nivel */
 nivel3::nivel3(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::nivel3)
@@ -64,11 +68,15 @@ nivel3::nivel3(QWidget *parent) :
     aviso_ = new aviso();
 }
 
+/* Desctructor de la clase */
 nivel3::~nivel3()
 {
     delete ui;
 }
 
+/*Metodo encargado de sumarle puntaje a la momia y agregarle una bomba a las que tenga en el momneto,
+ cada vez que obtenga una gema en su recorrido, el nuevo puntaje lo muestra en el label respectivo
+ al igual que el numero de bombas disponible*/
 void nivel3::sumar_puntaje()
 {
     control->puntaje+=1;
@@ -83,6 +91,8 @@ void nivel3::sumar_puntaje()
     ui->N_Bombas->setText(mostrar_bombas);
 }
 
+/*Metodo encargado de restarle vidas a la momia cada vez que colisiona con un escarabajo, elimina la vida
+ e la interfaz correspondiente*/
 void nivel3::restar_vidas()
 {
     control->vidas--;
@@ -91,6 +101,8 @@ void nivel3::restar_vidas()
     if(control->vidas==0){ui->vida1->clear();}
 }
 
+/* Metodo encargado de verfiicar si ya se llego al puntaje necesario para  poder pasar al siguiente nivel,
+de ser asi para todos los timer usados remueve los objetos de la escena y abre la nueva ventana*/
 void nivel3::avanzar2()
 {
     if((control->puntaje)==(10)){ contventana++;}
@@ -115,6 +127,9 @@ void nivel3::avanzar2()
     close();
 }
 
+/* Metodo encargado de verificar si la momia colisiona con las plataformas en el juego, si colisiona por
+ con la plataforma por arriba la ubica encima de estao si colisiona por un lado la devuelve d eun golpe
+ a una posicion donde pueda saltar */
 void nivel3::colision()
 {
     if(int(plataformas.size())!=0)
@@ -155,6 +170,8 @@ void nivel3::colision()
    }
 }
 
+/*Metodo que permite cargar una partida anteriormente guardada y asignar los valores correspondientes
+ el la iterfaz grafica */
 void nivel3::   cargar_juego()
 {
     //Mostrar Puntaje en el ui
@@ -170,15 +187,17 @@ void nivel3::   cargar_juego()
     /*Mostrar mensaje que no permita jugar*/
 }
 
+/* Metodo encargado en inicializar todos los timer del nivel respectivo*/
 void nivel3::iniciar_timer()
 {
     lluvia->start();
     timer1->start(40);
     timer2->start(1000);
-    timer3->start(30000);
+    timer3->start(3000);
     timer_Plataforma->start(1000);
 }
 
+/* Metodo encargado en inicializar los valores de la cantidad de vidas y puntaje en la respectiva interfaz */
 void nivel3::iniciar_puntaje()
 {
     int numero =control->puntaje;
@@ -194,6 +213,7 @@ void nivel3::iniciar_puntaje()
     if(control->vidas==0){ui->vida1->clear();}
 }
 
+/* Metodo encargado de generar gemas de forma aleatoria arriba de las plataformas de este nivel */
 void nivel3::generar()
 {
     gema *gema1 = new gema();
@@ -203,6 +223,8 @@ void nivel3::generar()
     scene->addItem(gema1);
 }
 
+/* Metodo que se encarga del movimento en general de la momia, verfica si presiono alguna tecla para realizar
+el respectivo movimiento, esto lo hace para cuando esta en modo un jugador o multijugador */
 void nivel3::actualizar()
 {
     if (saltar)
@@ -249,35 +271,20 @@ void nivel3::actualizar()
 
 }
 
+/* Genera escarabajos que se acercan a la momia para atacarla */
 void nivel3::generar_obst()
 {
-    obstcaculosenmov *escarabajo = new obstcaculosenmov();
-    scene->addItem(escarabajo);
-    escarabajo->iniciar1();
 
+    obstcaculosenmov *escarabaj2 = new obstcaculosenmov();
+    escarabaj2->setPY(400);
+    escarabaj2->setPX(jugador->getPX()+1300);
+    escarabaj2->setPos(escarabaj2->getPX(),escarabaj2->getPY());
+    scene->addItem(escarabaj2);
+    escarabaj2->iniciar2();
     cont_obstaculos++;
-    if(cont_obstaculos == 3){
-        obstcaculosenmov *escarabajo2 = new obstcaculosenmov();
-        escarabajo2->setPY(400);
-        escarabajo->setPX(1300);
-        escarabajo2->setPos(escarabajo2->getPX(),escarabajo->getPY());
-        scene->addItem(escarabajo2);
-        escarabajo2->iniciar2();
-    }
-
-
-    if(cont_obstaculos ==5){
-        obstcaculosenmov *bola = new obstcaculosenmov();
-        bola->setPixmap(QPixmap(":/bolaenelaire.png"));
-        bola->setPY(10);
-        bola->setPX(500);
-        bola->setPos(bola->getPX(),bola->getPY());
-        scene->addItem(bola);
-        bola->iniciar3();
-        cont_obstaculos=0;
-    }
 }
 
+/* Metodo encargado de generar las plataformas de forma aleatoria de este nivel */
 void nivel3::generar_plataforma()
 {
     base * plataforma = new base();
@@ -295,6 +302,8 @@ void nivel3::generar_plataforma()
     scene->addItem(plataformitas.last());
 }
 
+/* Metodo encargados de verificar si se presiona tecla y asi cambiar  los estados de las banderas
+ *  de movimiento*/
 void nivel3::keyPressEvent(QKeyEvent *event)
 {
     if(control->puntaje>=20 && control->puntaje<30)
@@ -324,6 +333,8 @@ void nivel3::keyPressEvent(QKeyEvent *event)
     }
 }
 
+/* Metodo encargados de verificar si se deja de presionar alguna tecla y asi cambiar
+ los estados de las banderas de movimiento*/
 void nivel3::keyReleaseEvent(QKeyEvent *event)
 {
     if( event->key() == Qt::Key_D ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
@@ -331,6 +342,7 @@ void nivel3::keyReleaseEvent(QKeyEvent *event)
     if( event->key() == Qt::Key_E ){ jugador->setPixmap(QPixmap(":/Donald1.png"));}
 }
 
+/* Metodo encargado de verificar si se presiona la opcion de guardar partida*/
 void nivel3::on_actionGuardar_Juego_n3_triggered()
 {
     qDebug()<<"entro a funcion guardar de nivel 3 ";

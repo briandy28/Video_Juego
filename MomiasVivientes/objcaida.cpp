@@ -1,3 +1,5 @@
+/*Esta clase permite generar balas para con esta poder destruir los escarabajos*/
+
 #include "objcaida.h"
 #include "controldejuego.h"
 #include "nivel2.h"
@@ -6,6 +8,8 @@ extern juego *Juego;
 extern nivel2 *Nivel2;
 extern nivel3 *Nivel3;
 extern controldejuego *control;
+
+/* Metodo constructor de la clase en el cual se asignan valores inciales*/
 objcaida::objcaida(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
    if(control->puntaje<10){PX= Juego->jugador->getPX()+100;}
@@ -31,36 +35,37 @@ objcaida::objcaida(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(paren
 
 }
 
+/* Metodos GET Y SET*/
 float objcaida::getPX() const
 {
     return PX;
 }
-
 void objcaida::setPX(float value)
 {
     PX = value;
 }
-
 float objcaida::getPY() const
 {
     return PY;
 }
-
 void objcaida::setPY(float value)
 {
     PY = value;
 }
 
+/* Metodo para inciar el timer 1 */
 void objcaida::iniciar1()
 {
     TimerLlamas->start(60);
 }
 
+/* Metodo para inciar el timer 2 */
 void objcaida::iniciar2()
 {
     TimerLlamas2->start(40);
 }
 
+/* Metodo le da moviemento al objeto, verifica colisiones y realiza el cambio de las imagenes*/
 void objcaida::mover()
 {
     QList<QGraphicsItem *> colliding_items = collidingItems();
@@ -69,14 +74,7 @@ void objcaida::mover()
         if (typeid(*(colliding_items[i])) == typeid(obstcaculosenmov))
         {
             mover2=false;
-            cont++;
-            cont2++;
-            if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}
-            if(cont2>=2&&cont2<4){this->setPixmap(QPixmap(":/explosion2.png"));}
-            if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
-            if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
-            if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));}
-
+            cont=8;
 
         }
         if (typeid(*(colliding_items[i])) == typeid(base))
@@ -88,9 +86,10 @@ void objcaida::mover()
             if(cont2>=2&&cont2<4){this->setPixmap(QPixmap(":/explosion2.png"));}
             if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
             if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
-            if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));}
+
 
       }
+
         if(Juego->opc_multijugador==true)
         {
             if (colliding_items[i] == Juego->jugador2)
@@ -102,8 +101,8 @@ void objcaida::mover()
                 if(cont2<2){this->setPixmap(QPixmap(":/explosion1.png"));sonido->play();}
                 if(cont2>=2&&cont2<4){this->setPixmap(QPixmap(":/explosion2.png"));}
                 if(cont2>=4&&cont2<6){this->setPixmap(QPixmap(":/explosion3.png"));}
-                if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));}
-                if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));restarvidas2=true;}
+                if(cont2>=6&&cont2<8){this->setPixmap(QPixmap(":/explosion4.png"));restarvidas2=true;}
+                //if(cont2>=8&&cont2<=10){this->setPixmap(QPixmap(":/explosion5.png"));restarvidas2=true;}
 
           }
         }
@@ -118,11 +117,11 @@ void objcaida::mover()
     setPos(PX,PY);
     }
 
-    if(cont==10)
+    if(cont==8)
     {
         if(control->puntaje<=10 || Juego->opc_multijugador==true){scene()->removeItem(this);delete this;}
-        if(control->puntaje>10 && control->puntaje<=20 && Juego->nivel1_==true){scene()->removeItem(this);delete this;}
-        if(control->puntaje>=20 && control->puntaje<=30 && Nivel2->nivel2_==true){scene()->removeItem(this);delete this;}
+        if(control->puntaje>=10 && control->puntaje<=20 && Nivel2->nivel2_==true){scene()->removeItem(this);delete this;}
+        if(control->puntaje>=20 && control->puntaje<=30 && Nivel3->nivel3_==true){scene()->removeItem(this);delete this;}
 
 
         if(restarvidas2)
@@ -135,12 +134,17 @@ void objcaida::mover()
                 Juego->timer2->stop();
                 Juego->timer3->stop();
                 Juego->timer_Plataforma->stop();
+                Juego->aviso_->multijugador1();
+                Juego->aviso_->show();
+                Juego->close();
             }
             restarvidas2=false;
         }
+        cont=0;
     }
 }
 
+/* Metodo le da moviemento al objeto, verifica colisiones y realiza el cambio de las imagenes*/
 void objcaida::movver2_()
 {
     QList<QGraphicsItem *> colliding_items = collidingItems();
@@ -212,6 +216,9 @@ void objcaida::movver2_()
                Juego->timer2->stop();
                Juego->timer3->stop();
                Juego->timer_Plataforma->stop();
+               Juego->aviso_->multijugador2();
+               Juego->aviso_->show();
+               Juego->close();
             }
         }
         restarvidas1=false;

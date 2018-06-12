@@ -1,3 +1,6 @@
+/* Esta clase se encarga de cargar el primer nivel del juego. o tambien de cargar el juego en la version
+ de multijugador si se selecciona esta opcion en el modo de juego*/
+
 #include "juego.h"
 #include "ui_juego.h"
 #include "niveles.h"
@@ -10,6 +13,9 @@ extern juego *Juego;
 extern niveles *ventana;
 extern controldejuego *control;
 using namespace std;
+
+/* Constructor de laclase, encargado de inicializar todas las variables, timer, agregar la escena, el suelo
+y asignar los sonidos que se utilizaran en este nivel */
 juego::juego(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::juego)
@@ -72,8 +78,12 @@ juego::juego(QWidget *parent) :
     srand(time(NULL));
 }
 
+/* Desctructor de la clase */
 juego::~juego(){delete ui;}
 
+/*Metodo encargado de sumarle puntaje a la momia y agregarle una bomba a las que tenga en el momneto,
+ cada vez que obtenga una gema en su recorrido, el nuevo puntaje lo muestra en el label respectivo
+ al igual que el numero de bombas disponible*/
 void juego::sumar_puntaje()
 {
     control->puntaje+=1;
@@ -88,6 +98,8 @@ void juego::sumar_puntaje()
     ui->N_Bombas->setText(mostrar_bombas);
 }
 
+/*Metodo encargado de restarle vidas a la momia cada vez que colisiona con un escarabajo, elimina la vida
+ e la interfaz correspondiente*/
 void juego::restar_vidas()
 {
     control->vidas--;
@@ -96,6 +108,7 @@ void juego::restar_vidas()
     if(control->vidas==0){ui->vida1->clear();}
 }
 
+/*Metodo encargado de inciar todos los timer del nivel 1 */
 void juego::nivel1()
 {
     ui->vidasJ1->clear();
@@ -107,58 +120,8 @@ void juego::nivel1()
     timer_Plataforma->start(2500);      //Timer de Plataformas
 }
 
-void juego::nivel2()
-{
-    qDebug()<<"numero de plataformas "<<plataformas.size();
-    ui->vidasJ1->clear();
-    ui->vidasJ2_4->clear();
-    scene->setBackgroundBrush(QBrush(QImage(":/N2.jpg")));
-    scene->setSceneRect(jugador->getPX(),10,1000,500);
-    suelo->setPx_base(-40);
-    suelo->setPy_base(525);
-    suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
-    suelo->setPixmap(QPixmap(":/sueloN2.jpg"));
-
-    jugador->setPos(0,370);
-    scene->addItem(jugador);
-
-    mover=false;
-    saltar=false;
-    lanzar=false;
-
-    lluvia->start();
-    timer1->start(40);
-    timer2->start(1000);
-    timer3->start(30000);
-    timer_Plataforma->start(1000);
-
-}
-
-void juego::nivel3()
-{
-    ui->vidasJ1->clear();
-    ui->vidasJ2_4->clear();
-
-    scene->setBackgroundBrush(QBrush(QImage(":/N3.jpg")));
-    suelo->setPx_base(-40);
-    suelo->setPy_base(525);
-    suelo->setPos(suelo->getPx_base(),suelo->getPy_base());
-    suelo->setPixmap(QPixmap(":/suelo.jpg"));
-
-    scene->addItem(jugador);
-    jugador->setPos(0,370);
-
-    mover=false;
-    saltar=false;
-    lanzar=false;
-
-    lluvia->start();
-    timer1->start(40);
-    timer2->start(2500);
-    timer3->start(30000);
-    timer_Plataforma->start(2500) ;
-}
-
+/*Metodo encargado de iniciar el juego en modo multijugador cuando el usuario selecciona esta opcion.
+Iniciarliza todas las variables necesarias para poder correr el juego e este modo*/
 void juego::multijugador()
 {
     ui->label->clear();
@@ -192,7 +155,8 @@ void juego::multijugador()
     lluvia->start();
     timer1->start(40);
 }
-
+/* Metodo encargado de verfiicar si ya se llego al puntaje necesario para  poder pasar al siguiente nivel,
+de ser asi para todos los timer usados remueve los objetos de la escena y abre la nueva ventana*/
 void juego::avanzar()
 {
    if((control->puntaje)==(10)){ contventana++;}
@@ -217,51 +181,17 @@ void juego::avanzar()
        plataformas.clear();
        if(plataformitas.size()!=0)
        {
-       ventana->show();
        aviso_->show();
        contventana = 4;
        close();
 
-   }
+       }
 }
 }
 
-void juego::avanzar2()
-{
-    if(int(control->puntaje)==(20)){ contventana++;qDebug()<<"cuando esta en la funcion"<<contventana;}
-    if(contventana==1)
-    {
-         //Se debe parar los stop y eliminar todos los objetos
-        timer1->stop();
-        timer2->stop();
-        timer3->stop();
-        timer_Plataforma->stop();
-        lluvia->stop();
-        qDebug()<<"llego aca........"<<plataformas.size();       
-        if(plataformas.size()!=0){
-        for(int i=0;i<int(plataformas.size());i++)
-        {
-           scene->removeItem(plataformas.at(i));
-        }
-        }
-        qDebug()<<"antes";
-        plataformas.clear();
-        qDebug()<<"despues";
-        if(plataformitas.size()!=0)
-        {
-        for(int i=0;i<int(plataformitas.size());i++)
-        {
-           scene->removeItem(plataformitas.at(i));
-        }
-        }
-        qDebug()<<"antes";
-        plataformitas.clear();
-        aviso_->show();
-        close();
-
-    }
-}
-
+/* Metodo encargado de verificar si la momia colisiona con las plataformas en el juego, si colisiona por
+ con la plataforma por arriba la ubica encima de estao si colisiona por un lado la devuelve d eun golpe
+ a una posicion donde pueda saltar */
 void juego::colision()
 {
 
@@ -304,6 +234,7 @@ void juego::colision()
 
 }
 
+/* Metodo encagado de controlar la cantidad de vidas mostradas en el modo multiugador */
 void juego::vidas_multijugador()
 {
     if(control->vidas==2){ui->vida3->clear();}
@@ -316,6 +247,8 @@ void juego::vidas_multijugador()
 
 }
 
+/*Metodo que permite cargar una partida anteriormente guardada y asignar los valores correspondientes
+ el la iterfaz grafica */
 void juego::cargar_juego()
 {
     //Mostrar Puntaje en el ui
@@ -331,6 +264,7 @@ void juego::cargar_juego()
     /*Mostrar mensaje que no permita jugar*/
 }
 
+/* Metodo encargado en inicializar los valores de la cantidad de vidas y puntaje en la respectiva interfaz */
 void juego::iniciar_puntaje()
 {
     int numero =control->puntaje;
@@ -343,7 +277,7 @@ void juego::iniciar_puntaje()
     ui->N_Bombas->setText(mostrar_bombas);
 }
 
-
+/* Metodo encargado de generar gemas de forma aleatoria arriba de las plataformas de este nivel */
 void juego::generar()
 {
     gema *gema1 = new gema();
@@ -353,6 +287,8 @@ void juego::generar()
     scene->addItem(gema1);
 }
 
+/* Metodo que se encarga del movimento en general de la momia, verfica si presiono alguna tecla para realizar
+el respectivo movimiento, esto lo hace para cuando esta en modo un jugador o multijugador */
 void juego::actualizar()
 {
     //Un Jugador
@@ -437,33 +373,16 @@ void juego::actualizar()
     }
 }
 
+/* Genera escarabajos que se acercan a la momia para atacarla */
 void juego::generar_obst()
 {
-    obstcaculosenmov *escarabajo = new obstcaculosenmov();
-    scene->addItem(escarabajo);
-    escarabajo->iniciar1();
-    if(control->puntaje>=10)
-    {
-      obstcaculosenmov *escarabajo2 = new obstcaculosenmov();
-      escarabajo2->setPY(400);
-      escarabajo->setPX(1300);
-      escarabajo2->setPos(escarabajo2->getPX(),escarabajo->getPY());
-      scene->addItem(escarabajo2);
-      escarabajo2->iniciar2();
-    }
-    if(control->puntaje>=20)
-    {
-      obstcaculosenmov *bola = new obstcaculosenmov();
-      bola->setPixmap(QPixmap(":/bolaenelaire.png"));
-      bola->setPY(10);
-      bola->setPX(500);
-      bola->setPos(bola->getPX(),bola->getPY());
-      scene->addItem(bola);
-      bola->iniciar3();
-    }
+    obstcaculosenmov *escarabajo = new obstcaculosenmov(); // creo el escarabajo terrestre
+    scene->addItem(escarabajo); // lo agrego a la escena
+    escarabajo->iniciar1();   //  le doy movimiento
 
 }
 
+/* Metodo encargado de generar las plataformas de forma aleatoria de este nivel */
 void juego::generar_plataforma()
 {
     base * plataforma = new base();
@@ -481,6 +400,9 @@ void juego::generar_plataforma()
     scene->addItem(plataformitas.last());
 }
 
+/* Metodo encargados de verificar si se presiona tecla y asi cambiar  los estados de las banderas
+ *  de movimiento*/
+
 //1 mover derecha, 0 no mover, 2 mover izq
 void juego::keyPressEvent(QKeyEvent *event)
 {
@@ -494,19 +416,21 @@ void juego::keyPressEvent(QKeyEvent *event)
         {
             if(control->num_Bombas>0)
             {
-                lanzar2->play();
                 objcaida* bola = new objcaida();
                 bola->setPY(jugador->getPY());
                 bola->setPos(bola->getPX(),bola->getPY());
                 scene->addItem(bola);
                 bola->iniciar1();
                 jugador->lanzar();
+                if(!opc_multijugador)
+                {
                 control->num_Bombas--;
                 //ui->N_Bombas;
                 int numero_bombas =control->num_Bombas;
                 QString mostrar_bombas;
                 mostrar_bombas= QString::number(numero_bombas);
                 ui->N_Bombas->setText(mostrar_bombas);
+                }
             }
         }
 
@@ -531,6 +455,9 @@ void juego::keyPressEvent(QKeyEvent *event)
 
 }
 
+/* Metodo encargados de verificar si se deja de presionar alguna tecla y asi cambiar
+ los estados de las banderas de movimiento*/
+
 void juego::keyReleaseEvent(QKeyEvent *event)
 {
     if( event->key() == Qt::Key_D ){ mover = false,tipo_mov1 =0; jugador->setPixmap(QPixmap(":/Donald1.png"));}
@@ -541,18 +468,7 @@ void juego::keyReleaseEvent(QKeyEvent *event)
     if( event->key() == Qt::Key_U ){ jugador2->setPixmap(QPixmap(":/Donald2_1.png"));}
 }
 
-//void juego::on_actionGuardar_Juego_triggered()
-//{
-//    qDebug()<<"entro a funcion guardar de juego ";
-//    QFile file("videojuego.txt");
-//    file.open(QIODevice::WriteOnly | QIODevice::Truncate);
-//    QTextStream texto(&file);
-//    texto<<control->puntaje<<QString(" ");
-//    texto<<control->vidas;
-//    texto<<"/n"<<"Puntaje "<<"Vidas";
-//    file.close();
-//}
-
+/* Metodo encargado de verificar si se presiona la opcion de guardar partida*/
 void juego::on_actionGuardar_juego_Nivel1_triggered()
 {
     qDebug()<<"entro a funcion guardar de juego ";
@@ -565,7 +481,3 @@ void juego::on_actionGuardar_juego_Nivel1_triggered()
     file.close();
 }
 
-void juego::on_btn_Guardar_clicked()
-{
-
-}

@@ -28,6 +28,8 @@ private:
     bool mover2,mover3,restarvidas1,restarvidas2;
     int cont,cont2;
     QMediaPlayer* sonido;
+
+
 signals:
 
 public slots:

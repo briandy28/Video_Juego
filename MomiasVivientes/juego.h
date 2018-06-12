@@ -58,6 +58,7 @@ public:
     QList<base*> plataformas;
     QList<base*> plataformitas;
     base* suelo;
+    aviso* aviso_;
 
 private:
     bool mover, saltar,lanzar,saltoparabolico,col, mover_j2, saltar_j2, lanzar_j2, saltoparabolico_j2;
@@ -67,7 +68,6 @@ private:
     QMediaPlayer* salto;
     QMediaPlayer* lanzar2;
     QMovie* lluvia;
-    aviso* aviso_;
 
 public slots:
     void generar();
@@ -78,9 +78,7 @@ public slots:
     void keyReleaseEvent(QKeyEvent *event);
 
 private slots:
-//    void on_actionGuardar_Juego_triggered();
     void on_actionGuardar_juego_Nivel1_triggered();
-    void on_btn_Guardar_clicked();
 };
 
 #endif // JUEGO_H

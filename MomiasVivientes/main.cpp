@@ -12,6 +12,8 @@ niveles *ventana;
 nivel2 * Nivel2;
 nivel3 * Nivel3;
 
+
+/* En este emtodo se estan declaraon declarando externas las clases para poder usarlas en las otras */
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

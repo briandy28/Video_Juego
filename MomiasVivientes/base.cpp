@@ -1,5 +1,11 @@
+/*Esta clase permite generar plataformas en los diferentes niveles del juego
+ en las cuales el jugador se puede ubicar para porder obtener gemas y ganar puntos,
+ademaspermite generar el suelo sobre el cual camina la momia en todos los niveles*/
+
 #include "base.h"
 
+/*Constructor para generar las plataformas y el suelo, los valores se modifican en algunas clases
+dependiendo de las necesidades*/
 base::base(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
     Px_base = 800;
@@ -11,7 +17,7 @@ base::base(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 base::~base()
 {
 }
-
+//Metodos GET y SET
 float base::getPx_base() const
 {
     return Px_base;

@@ -1,3 +1,6 @@
+/* Esta clase permirte darle un manejo al personaje principal que es la momia, en esta
+se cambian las imagenes en abse al tipo de movimiento para asi simular movimento fluido */
+
 #include "momia.h"
 #include "juego.h"
 extern juego* Juego;
@@ -19,6 +22,7 @@ void momia::setPY(float value)
     PY = value;
 }
 
+/* Metodo constructor de la clase en el cual se asignan valores inciales*/
 momia::momia(QObject *parent) : QObject(parent)
 {
     PX=0;
@@ -29,6 +33,8 @@ momia::momia(QObject *parent) : QObject(parent)
     cont2=0;
 }
 
+/* Metodo encargado de realizar el movimiento lectilineo en la momia, tambien permite para la
+opcion de multijugador moverse hacia la izquierda*/
 void momia::mover(int tipo_mov)
 {
     if(tipo_mov == 1){      //Movimiento hacia la DERECHA
@@ -51,6 +57,7 @@ void momia::mover(int tipo_mov)
     }
 }
 
+/* Metodo encargado de realizar el movimiento lectilineo en direccion vertical en la momia */
 void momia::saltar(float dt)
 {
     PY = PY -25*dt + 9.8*dt*dt ;
@@ -58,6 +65,8 @@ void momia::saltar(float dt)
         this->setPixmap(QPixmap(":/Donald1.png"));
 }
 
+/* Metodo encargado de realizar el movimiento parabolico en la momia, cambiando asi
+ su posicion en X y Y*/
 void momia::saltar_parabolico(float dt)
 {
     PY = PY -25*dt + 9.8*dt*dt ;
@@ -66,6 +75,8 @@ void momia::saltar_parabolico(float dt)
     this->setPixmap(QPixmap(":/Donald1.png"));
 }
 
+/* Metodo encargado de realizar el lanzamiento en la momia, simulando asi el cambio de
+ su posicion en X y Y de la mano */
 void momia::lanzar()
 {
     cont2++;
@@ -78,7 +89,9 @@ void momia::lanzar()
 }
 
 
-//Metodos para Multijugador- JUGADOR 2
+/*Metodos para Multijugador- JUGADOR 2
+Estos metodos son el mismo tipo de moviento que los metodos anteriores, solo que aplican solamente
+cuando se selecciona la opvion de multijugador*/
 
 void momia::mover_multij(int tipo_mov)
 {

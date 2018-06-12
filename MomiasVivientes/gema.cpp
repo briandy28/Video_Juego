@@ -1,3 +1,6 @@
+/*Esta clase permite generar gemas de forma aleatoria y tambie moverlas en los diferentes
+niveles del juego*/
+
 #include "gema.h"
 #include "nivel2.h"
 #include "nivel3.h"
@@ -6,6 +9,9 @@ extern juego *Juego;
 extern nivel2 *Nivel2;
 extern nivel3 *Nivel3;
 extern controldejuego *control;
+
+/*Constructor para generar las gemas en los diferentes niveles, los valores se modifican en algunas clases
+para dar ubicaciones diferentes*/
 gema::gema(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
     PX= 1000;
@@ -13,10 +19,11 @@ gema::gema(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
     setPos(PX,PY);
     setPixmap(QPixmap(":/gema1.png"));
     timergema = new QTimer;
-    connect(timergema, SIGNAL(timeout()), this, SLOT(mover()));
-    timergema->start(40);
+    connect(timergema, SIGNAL(timeout()), this, SLOT(mover()));     //coneccion entre el timer y la funcion mover
+    timergema->start(40);                                           //Timerpara controlar el movimiento
 }
 
+//Metodos GET y SET
 float gema::getPX() const
 {
     return PX;
@@ -34,6 +41,11 @@ void gema::setPY(float value)
     PY = value;
 }
 
+
+/* sta funcion verifica si existe alguna colision entre la gema generar y la momia, si se geera la colision
+ se llamada a la funcion sumar puntaje del nivel en el que se encuentre, si no se genera la colision elimina
+ la gema cuando llega al final de la escena
+*/
 void gema::mover()
 {
 
@@ -62,7 +74,7 @@ void gema::mover()
                 }
             }
         }
-        ;
+
 
         if(PX==0)
         {

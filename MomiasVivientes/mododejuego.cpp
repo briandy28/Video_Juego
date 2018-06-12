@@ -1,3 +1,6 @@
+/* Esta clase permirte selecionar por medio de la intarfaz grafica el modo de juego en
+ el cual se desea jugar, ya sea un solo jugador, multijugador o si desea cargar partida*/
+
 #include "mododejuego.h"
 #include "ui_mododejuego.h"
 #include "juego.h"
@@ -10,6 +13,8 @@ extern nivel3 *Nivel3;
 extern niveles *ventana;
 extern juego *Juego;
 extern controldejuego *control;
+
+/* Metodo constructor de la clase */
 modoDeJuego::modoDeJuego(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::modoDeJuego)
@@ -17,11 +22,13 @@ modoDeJuego::modoDeJuego(QWidget *parent) :
     ui->setupUi(this);
 }
 
+/* Metodo destructor de la clase */
 modoDeJuego::~modoDeJuego()
 {
     delete ui;
 }
 
+/* Opcion para un solo jugador */
 void modoDeJuego::on_pushButton_2_clicked()
 {
     //un jugador
@@ -30,6 +37,7 @@ void modoDeJuego::on_pushButton_2_clicked()
    this->~modoDeJuego();
 }
 
+/* Opcion para multijugador */
 void modoDeJuego::on_pushButton_clicked()
 {
     //multijugador
@@ -39,7 +47,8 @@ void modoDeJuego::on_pushButton_clicked()
     this->~modoDeJuego();
 
 }
-
+/* Opcion para cargar partida, lee el aarchivo y carga la partida en el respectivo nivel, en
+ base al puntaje guardado*/
 void modoDeJuego::on_pushButton_Cargar_clicked()
 {
     QString info;                       //String para leer los datos del archivo

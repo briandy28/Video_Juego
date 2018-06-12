@@ -17,6 +17,8 @@ public:
     explicit aviso(QWidget *parent = 0);
     ~aviso();
     void perdiste();
+    void multijugador1();
+    void multijugador2();
     QMovie *ganaste;
 
 private slots:
